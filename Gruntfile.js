@@ -5,8 +5,9 @@ module.exports = function(grunt) {
   grunt.initConfig({
     babel: {
       options: {
+        plugins: ['transform-react-jsx'],
         sourceMap: true,
-        presets: ['es2015']
+        presets: ['es2015', 'react']
       },
       dist: {
         files: [
@@ -45,7 +46,7 @@ module.exports = function(grunt) {
 
   grunt.registerTask('testClient', ['babel', 'browserify:test', 'shell:testClient']);
 
-  grunt.registerTask('dev', ['browserify', 'watch:transpile']);
+  grunt.registerTask('dev', ['babel', 'browserify', 'watch:transpile']);
 
   grunt.registerTask('default', ['dev']);
 
