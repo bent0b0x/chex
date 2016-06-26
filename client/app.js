@@ -3,22 +3,37 @@
 
 var _redux = require('redux');
 
+var _GameActions = require('../game/GameActions');
+
+var GameActions = _interopRequireWildcard(_GameActions);
+
 var _gameReducer = require('../game/gameReducer');
 
 var _Game = require('../game/Game');
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 var initialState = {
   home_team: 'New York Islanders',
   away_team: 'New York Rangers',
   home_score: '0',
-  away_score: '0'
+  away_score: '0',
+  period: 1,
+  time_remaining: '20:00'
 };
 
 var app = function app() {
   var state = arguments.length <= 0 || arguments[0] === undefined ? initialState : arguments[0];
   var action = arguments[1];
 
-  return (0, _gameReducer.updateScore)(state, action);
+  switch (action.type) {
+    case GameActions.TICK:
+      return Object.assign({}, state, (0, _gameReducer.reduceTime)(state, action));
+    case GameActions.GOAL:
+      return Object.assign({}, state, (0, _gameReducer.updateScore)(state, action));
+    default:
+      return state;
+  }
 };
 
 var store = (0, _redux.createStore)(app);
@@ -26,22 +41,27 @@ var store = (0, _redux.createStore)(app);
 console.log(store.getState());
 
 var unsubscribe = store.subscribe(function () {
-  console.log(store.getState());
+  var state = store.getState();
+  console.log(state.time_remaining, state.period);
 });
 
 store.dispatch((0, _Game.score)('New York Islanders'));
 store.dispatch((0, _Game.score)('New York Rangers'));
 
+store.dispatch((0, _Game.tick)());
+
 store.dispatch((0, _Game.score)());
 
+unsubscribe();
 
-},{"../game/Game":2,"../game/gameReducer":4,"redux":11}],2:[function(require,module,exports){
+
+},{"../game/Game":2,"../game/GameActions":3,"../game/gameReducer":4,"redux":11}],2:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.score = undefined;
+exports.tick = exports.score = undefined;
 
 var _GameActions = require('./GameActions');
 
@@ -56,6 +76,12 @@ var score = exports.score = function score(team) {
   };
 };
 
+var tick = exports.tick = function tick() {
+  return {
+    type: GameActions.TICK
+  };
+};
+
 
 },{"./GameActions":3}],3:[function(require,module,exports){
 'use strict';
@@ -65,6 +91,8 @@ Object.defineProperty(exports, "__esModule", {
 });
 var GOAL = exports.GOAL = 'GOAL';
 
+var TICK = exports.TICK = 'TICK';
+
 
 },{}],4:[function(require,module,exports){
 'use strict';
@@ -72,7 +100,7 @@ var GOAL = exports.GOAL = 'GOAL';
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.updateScore = undefined;
+exports.reduceTime = exports.updateScore = undefined;
 
 var _GameActions = require('./GameActions');
 
@@ -92,8 +120,44 @@ var updateScore = exports.updateScore = function updateScore(state, action) {
     default:
       return state;
   }
+};
 
-  return state;
+var reduceTime = exports.reduceTime = function reduceTime(state, action) {
+  switch (action.type) {
+    case _GameActions.TICK:
+      var time_remaining = state.time_remaining;
+      var period = state.period;
+      var minutes = parseInt(time_remaining.split(':')[0]);
+      var seconds = parseInt(time_remaining.split(':')[1]);
+      if (seconds === 0) {
+        if (minutes === 0) {
+          if (period !== 3) {
+            period++;
+            seconds = '00';
+            minutes = '20';
+          }
+        } else {
+          minutes--;
+          seconds = '59';
+        }
+      } else {
+        seconds--;
+      }
+      minutes = '' + minutes;
+      seconds = '' + seconds;
+      if (minutes.length === 1) {
+        minutes = '0' + minutes;
+      }
+      if (seconds.length === 1) {
+        seconds = '0' + seconds;
+      }
+      return Object.assign({}, state, {
+        period: period,
+        time_remaining: minutes + ':' + seconds
+      });
+    default:
+      return state;
+  }
 };
 
 

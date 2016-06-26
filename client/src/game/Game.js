@@ -6,3 +6,9 @@ export const score = (team) => {
     team: team
   }
 }
+
+export const tick = () => {
+  return {
+    type: GameActions.TICK
+  }
+}
