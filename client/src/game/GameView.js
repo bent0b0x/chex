@@ -3,7 +3,7 @@ import { tick } from './Game';
 import { connect } from 'react-redux';
 
 
-const Game = ({ game, onStartClick }) => {
+const Game = ({ teams, scoreboard, clock, onStartClick }) => {
   return (
     <div class="game">
       <button 
@@ -12,25 +12,28 @@ const Game = ({ game, onStartClick }) => {
       >
         Start
       </button>
-      <h2>Home Team: { game.home_team }</h2>
-      <h2>Away Team: { game.away_team }</h2>
+      <h2>Home Team: { teams.home_team }</h2>
+      <h2>Away Team: { teams.away_team }</h2>
 
       <div>
-        Home Score: { game.home_score }
+        Home Score: { scoreboard.home_score }
       </div>
 
       <div>
-        Away Score: { game.away_score }
+        Away Score: { scoreboard.away_score }
       </div>
 
-      <div> Period: { game.period } </div>
-      <div> { game.time_remaining } </div>
+      <div> Period: { clock.period } </div>
+      <div> { clock.time_remaining } </div>
     </div>
   );
 }
 
 Game.propTypes = {
-  game: PropTypes.object.isRequired
+  teams: PropTypes.object.isRequired,
+  scoreboard: PropTypes.object.isRequired,
+  clock: PropTypes.object.isRequired,
+  onStartClick: PropTypes.func.isRequired
 };
 
 export default Game

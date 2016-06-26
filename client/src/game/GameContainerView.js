@@ -5,7 +5,9 @@ import { tick } from './Game';
 
 const mapStateToProps = (state) => {
   return {
-    game: state
+    teams: state.teams,
+    clock: state.clock,
+    scoreboard: state.scoreboard
   };
 };
 

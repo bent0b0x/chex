@@ -1,6 +1,7 @@
 import { GOAL, TICK } from './GameActions';
+import { initialState } from '../app/initialState';
 
-export const updateScore  = (state, action) => {
+export const scoreboard  = (state = initialState.scoreboard, action) => {
   switch (action.type) {
     case GOAL:
       let scoreboard = {
@@ -16,9 +17,15 @@ export const updateScore  = (state, action) => {
     default:
       return state;
   }
+
+  return state;
 }
 
-export const reduceTime = (state, action) => {
+export const teams = (state = initialState.teams, action) => {
+  return state;
+}
+
+export const clock = (state = initialState.clock, action) => {
 
   switch (action.type) {
     case TICK:
@@ -49,11 +56,13 @@ export const reduceTime = (state, action) => {
         seconds = '0' + seconds;
       }
       return Object.assign({}, state, {
-        period: period,
-        time_remaining: `${minutes}:${seconds}`
+          period: period,
+          time_remaining: `${minutes}:${seconds}`
       });
     default:
       return state;
   }
+
+  return state;
 }
 

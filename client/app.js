@@ -78,40 +78,38 @@ var _gameActions = require('../game/gameActions');
 
 var GameActions = _interopRequireWildcard(_gameActions);
 
+var _redux = require('redux');
+
 var _gameReducer = require('../game/gameReducer');
+
+var gameReducers = _interopRequireWildcard(_gameReducer);
 
 var _initialState = require('./initialState');
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
-var appReducer = exports.appReducer = function appReducer() {
-  var state = arguments.length <= 0 || arguments[0] === undefined ? _initialState.initialState : arguments[0];
-  var action = arguments[1];
-
-  switch (action.type) {
-    case GameActions.TICK:
-      return Object.assign({}, state, (0, _gameReducer.reduceTime)(state, action));
-    case GameActions.GOAL:
-      return Object.assign({}, state, (0, _gameReducer.updateScore)(state, action));
-    default:
-      return state;
-  }
-};
+var appReducer = exports.appReducer = (0, _redux.combineReducers)(gameReducers);
 
 
-},{"../game/gameActions":9,"../game/gameReducer":10,"./initialState":4}],4:[function(require,module,exports){
+},{"../game/gameActions":9,"../game/gameReducer":10,"./initialState":4,"redux":196}],4:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 var initialState = exports.initialState = {
-  home_team: 'New York Islanders',
-  away_team: 'New York Rangers',
-  home_score: 0,
-  away_score: 0,
-  period: 1,
-  time_remaining: '20:00'
+  teams: {
+    home_team: 'New York Islanders',
+    away_team: 'New York Rangers'
+  },
+  scoreboard: {
+    home_score: 0,
+    away_score: 0
+  },
+  clock: {
+    time_remaining: '20:00',
+    period: 1
+  }
 };
 
 
@@ -173,7 +171,9 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var mapStateToProps = function mapStateToProps(state) {
   return {
-    game: state
+    teams: state.teams,
+    clock: state.clock,
+    scoreboard: state.scoreboard
   };
 };
 
@@ -212,7 +212,9 @@ var _reactRedux = require('react-redux');
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var Game = function Game(_ref) {
-  var game = _ref.game;
+  var teams = _ref.teams;
+  var scoreboard = _ref.scoreboard;
+  var clock = _ref.clock;
   var onStartClick = _ref.onStartClick;
 
   return _react2.default.createElement(
@@ -230,45 +232,48 @@ var Game = function Game(_ref) {
       'h2',
       null,
       'Home Team: ',
-      game.home_team
+      teams.home_team
     ),
     _react2.default.createElement(
       'h2',
       null,
       'Away Team: ',
-      game.away_team
+      teams.away_team
     ),
     _react2.default.createElement(
       'div',
       null,
       'Home Score: ',
-      game.home_score
+      scoreboard.home_score
     ),
     _react2.default.createElement(
       'div',
       null,
       'Away Score: ',
-      game.away_score
+      scoreboard.away_score
     ),
     _react2.default.createElement(
       'div',
       null,
       ' Period: ',
-      game.period,
+      clock.period,
       ' '
     ),
     _react2.default.createElement(
       'div',
       null,
       ' ',
-      game.time_remaining,
+      clock.time_remaining,
       ' '
     )
   );
 };
 
 Game.propTypes = {
-  game: _react.PropTypes.object.isRequired
+  teams: _react.PropTypes.object.isRequired,
+  scoreboard: _react.PropTypes.object.isRequired,
+  clock: _react.PropTypes.object.isRequired,
+  onStartClick: _react.PropTypes.func.isRequired
 };
 
 exports.default = Game;
@@ -282,29 +287,46 @@ arguments[4][6][0].apply(exports,arguments)
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.reduceTime = exports.updateScore = undefined;
+exports.clock = exports.teams = exports.scoreboard = undefined;
 
 var _GameActions = require('./GameActions');
 
-var updateScore = exports.updateScore = function updateScore(state, action) {
+var _initialState = require('../app/initialState');
+
+var scoreboard = exports.scoreboard = function scoreboard() {
+  var state = arguments.length <= 0 || arguments[0] === undefined ? _initialState.initialState.scoreboard : arguments[0];
+  var action = arguments[1];
+
   switch (action.type) {
     case _GameActions.GOAL:
-      var scoreboard = {
+      var _scoreboard = {
         home_score: state.home_score,
         away_score: state.away_score
       };
       if (action.team === state.home_team) {
-        scoreboard.home_score++;
+        _scoreboard.home_score++;
       } else if (action.team === state.away_team) {
-        scoreboard.away_score++;
+        _scoreboard.away_score++;
       }
-      return Object.assign({}, state, scoreboard);
+      return Object.assign({}, state, _scoreboard);
     default:
       return state;
   }
+
+  return state;
 };
 
-var reduceTime = exports.reduceTime = function reduceTime(state, action) {
+var teams = exports.teams = function teams() {
+  var state = arguments.length <= 0 || arguments[0] === undefined ? _initialState.initialState.teams : arguments[0];
+  var action = arguments[1];
+
+  return state;
+};
+
+var clock = exports.clock = function clock() {
+  var state = arguments.length <= 0 || arguments[0] === undefined ? _initialState.initialState.clock : arguments[0];
+  var action = arguments[1];
+
 
   switch (action.type) {
     case _GameActions.TICK:
@@ -341,10 +363,12 @@ var reduceTime = exports.reduceTime = function reduceTime(state, action) {
     default:
       return state;
   }
+
+  return state;
 };
 
 
-},{"./GameActions":6}],11:[function(require,module,exports){
+},{"../app/initialState":4,"./GameActions":6}],11:[function(require,module,exports){
 // shim for using process in browser
 
 var process = module.exports = {};
