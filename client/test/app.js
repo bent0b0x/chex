@@ -32,14 +32,10 @@ var _gameReducer = require('../game/gameReducer');
 
 var _initialState = require('./initialState');
 
-var _initialState2 = _interopRequireDefault(_initialState);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 var appReducer = exports.appReducer = function appReducer() {
-  var state = arguments.length <= 0 || arguments[0] === undefined ? _initialState2.default : arguments[0];
+  var state = arguments.length <= 0 || arguments[0] === undefined ? _initialState.initialState : arguments[0];
   var action = arguments[1];
 
   switch (action.type) {
@@ -62,8 +58,8 @@ Object.defineProperty(exports, "__esModule", {
 var initialState = exports.initialState = {
   home_team: 'New York Islanders',
   away_team: 'New York Rangers',
-  home_score: '0',
-  away_score: '0',
+  home_score: 0,
+  away_score: 0,
   period: 1,
   time_remaining: '20:00'
 };
@@ -139,6 +135,7 @@ var updateScore = exports.updateScore = function updateScore(state, action) {
 };
 
 var reduceTime = exports.reduceTime = function reduceTime(state, action) {
+
   switch (action.type) {
     case _GameActions.TICK:
       var time_remaining = state.time_remaining;

@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "start": "nodemon server/app.js",
-    "test": "mocha test/"
+    "test": "mocha --compilers js:babel-register --recursive client/test",
+    "test:watch": "npm test -- --watch"
   },
   "author": "bent0b0x",
   "license": "MIT",
@@ -15,10 +16,13 @@
   },
   "devDependencies": {
     "babel-preset-es2015": "^6.9.0",
+    "babel-register": "^6.9.0",
+    "chai": "^3.5.0",
     "grunt": "^1.0.1",
     "grunt-babel": "^6.0.0",
     "grunt-browserify": "^5.0.0",
     "grunt-contrib-watch": "^1.0.0",
+    "grunt-shell": "^1.3.0",
     "load-grunt-tasks": "^3.5.0"
   }
 }

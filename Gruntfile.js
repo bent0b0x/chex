@@ -22,16 +22,28 @@ module.exports = function(grunt) {
     browserify: {
       client: {
         src: ['client/dist/**/*.js'],
+        ignore: ['client/test/**/*'],
         dest: 'client/app.js'
+      },
+      test: {
+        src: ['client/dist/**/*.js'],
+        dest: 'client/test/app.js'
       }
     },
     watch: {
       transpile: {
         files: ['client/src/**/*.js'],
-        tasks: ['babel', 'browserify']
+        tasks: ['babel', 'browserify:client']
+      }
+    },
+    shell: {
+      testClient: {
+        command: 'mocha --compilers js:babel-register --recursive client/test' 
       }
     }
   });
+
+  grunt.registerTask('testClient', ['babel', 'browserify:test', 'shell:testClient']);
 
   grunt.registerTask('dev', ['browserify', 'watch:transpile']);
 

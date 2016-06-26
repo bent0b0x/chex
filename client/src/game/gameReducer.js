@@ -19,6 +19,7 @@ export const updateScore  = (state, action) => {
 }
 
 export const reduceTime = (state, action) => {
+
   switch (action.type) {
     case TICK:
       let time_remaining = state.time_remaining;
