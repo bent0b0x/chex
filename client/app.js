@@ -45,15 +45,7 @@ var _AppView = require('./AppView');
 
 var _reactDom = require('react-dom');
 
-var _GameActions = require('../game/GameActions');
-
-var GameActions = _interopRequireWildcard(_GameActions);
-
 var _appReducer = require('./appReducer');
-
-var _Game = require('../game/Game');
-
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -66,7 +58,7 @@ var store = (0, _redux.createStore)(_appReducer.appReducer);
 ), document.getElementById('root'));
 
 
-},{"../game/Game":5,"../game/GameActions":6,"./AppView":1,"./appReducer":3,"react":190,"react-dom":12,"react-redux":15,"redux":196}],3:[function(require,module,exports){
+},{"./AppView":1,"./appReducer":3,"react":190,"react-dom":12,"react-redux":15,"redux":196}],3:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -98,17 +90,16 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 var initialState = exports.initialState = {
-  teams: {
-    home_team: 'New York Islanders',
-    away_team: 'New York Rangers'
-  },
   scoreboard: {
+    home_team: 'New York Islanders',
+    away_team: 'New York Rangers',
     home_score: 0,
     away_score: 0
   },
   clock: {
     time_remaining: '20:00',
-    period: 1
+    period: 1,
+    running: false
   }
 };
 
@@ -119,7 +110,7 @@ var initialState = exports.initialState = {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.tick = exports.score = undefined;
+exports.toggle = exports.tick = exports.score = undefined;
 
 var _GameActions = require('./GameActions');
 
@@ -140,6 +131,12 @@ var tick = exports.tick = function tick() {
   };
 };
 
+var toggle = exports.toggle = function toggle() {
+  return {
+    type: GameActions.TOGGLE
+  };
+};
+
 
 },{"./GameActions":6}],6:[function(require,module,exports){
 'use strict';
@@ -150,6 +147,8 @@ Object.defineProperty(exports, "__esModule", {
 var GOAL = exports.GOAL = 'GOAL';
 
 var TICK = exports.TICK = 'TICK';
+
+var TOGGLE = exports.TOGGLE = 'TOGGLE';
 
 
 },{}],7:[function(require,module,exports){
@@ -177,15 +176,20 @@ var mapStateToProps = function mapStateToProps(state) {
   };
 };
 
+var calledTick = false;
+
 var mapDispatchToProps = function mapDispatchToProps(dispatch) {
-  var clock = function clock(e) {
-    setTimeout(function () {
-      dispatch((0, _Game.tick)());
-      clock();
-    }, 1000);
-  };
   return {
-    onStartClick: clock
+    onToggleClick: function onToggleClick() {
+      dispatch((0, _Game.toggle)());
+      if (calledTick) {
+        return;
+      }
+      setInterval(function () {
+        dispatch((0, _Game.tick)());
+      });
+      calledTick = true;
+    }
   };
 };
 
@@ -215,7 +219,7 @@ var Game = function Game(_ref) {
   var teams = _ref.teams;
   var scoreboard = _ref.scoreboard;
   var clock = _ref.clock;
-  var onStartClick = _ref.onStartClick;
+  var onToggleClick = _ref.onToggleClick;
 
   return _react2.default.createElement(
     'div',
@@ -223,10 +227,10 @@ var Game = function Game(_ref) {
     _react2.default.createElement(
       'button',
       {
-        'class': 'start',
-        onClick: onStartClick
+        'class': 'toggle',
+        onClick: onToggleClick
       },
-      'Start'
+      'Toggle Clock'
     ),
     _react2.default.createElement(
       'h2',
@@ -273,7 +277,7 @@ Game.propTypes = {
   teams: _react.PropTypes.object.isRequired,
   scoreboard: _react.PropTypes.object.isRequired,
   clock: _react.PropTypes.object.isRequired,
-  onStartClick: _react.PropTypes.func.isRequired
+  onToggleClick: _react.PropTypes.func.isRequired
 };
 
 exports.default = Game;
@@ -287,7 +291,7 @@ arguments[4][6][0].apply(exports,arguments)
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.clock = exports.teams = exports.scoreboard = undefined;
+exports.clock = exports.scoreboard = undefined;
 
 var _GameActions = require('./GameActions');
 
@@ -316,50 +320,58 @@ var scoreboard = exports.scoreboard = function scoreboard() {
   return state;
 };
 
-var teams = exports.teams = function teams() {
-  var state = arguments.length <= 0 || arguments[0] === undefined ? _initialState.initialState.teams : arguments[0];
+var tick = function tick() {
+  var state = arguments.length <= 0 || arguments[0] === undefined ? _initialState.initialState.clock : arguments[0];
   var action = arguments[1];
 
-  return state;
+  if (!state.running) {
+    return state;
+  }
+  var time_remaining = state.time_remaining;
+  var period = state.period;
+  var running = state.running;
+  var minutes = parseInt(time_remaining.split(':')[0]);
+  var seconds = parseInt(time_remaining.split(':')[1]);
+  if (seconds === 0) {
+    if (minutes === 0) {
+      running = false;
+      if (period !== 3) {
+        period++;
+        seconds = '00';
+        minutes = '20';
+      }
+    } else {
+      minutes--;
+      seconds = '59';
+    }
+  } else {
+    seconds--;
+  }
+  minutes = '' + minutes;
+  seconds = '' + seconds;
+  if (minutes.length === 1) {
+    minutes = '0' + minutes;
+  }
+  if (seconds.length === 1) {
+    seconds = '0' + seconds;
+  }
+
+  return Object.assign({}, state, {
+    period: period,
+    running: running,
+    time_remaining: minutes + ':' + seconds
+  });
 };
 
 var clock = exports.clock = function clock() {
   var state = arguments.length <= 0 || arguments[0] === undefined ? _initialState.initialState.clock : arguments[0];
   var action = arguments[1];
 
-
   switch (action.type) {
     case _GameActions.TICK:
-      var time_remaining = state.time_remaining;
-      var period = state.period;
-      var minutes = parseInt(time_remaining.split(':')[0]);
-      var seconds = parseInt(time_remaining.split(':')[1]);
-      if (seconds === 0) {
-        if (minutes === 0) {
-          if (period !== 3) {
-            period++;
-            seconds = '00';
-            minutes = '20';
-          }
-        } else {
-          minutes--;
-          seconds = '59';
-        }
-      } else {
-        seconds--;
-      }
-      minutes = '' + minutes;
-      seconds = '' + seconds;
-      if (minutes.length === 1) {
-        minutes = '0' + minutes;
-      }
-      if (seconds.length === 1) {
-        seconds = '0' + seconds;
-      }
-      return Object.assign({}, state, {
-        period: period,
-        time_remaining: minutes + ':' + seconds
-      });
+      return tick(state, action);
+    case _GameActions.TOGGLE:
+      return Object.assign({}, state, { running: !state.running });
     default:
       return state;
   }

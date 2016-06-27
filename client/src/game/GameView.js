@@ -3,14 +3,14 @@ import { tick } from './Game';
 import { connect } from 'react-redux';
 
 
-const Game = ({ teams, scoreboard, clock, onStartClick }) => {
+const Game = ({ teams, scoreboard, clock, onToggleClick }) => {
   return (
     <div class="game">
       <button 
-        class="start"
-        onClick={onStartClick}
+        class="toggle"
+        onClick={onToggleClick}
       >
-        Start
+        Toggle Clock
       </button>
       <h2>Home Team: { teams.home_team }</h2>
       <h2>Away Team: { teams.away_team }</h2>
@@ -33,7 +33,7 @@ Game.propTypes = {
   teams: PropTypes.object.isRequired,
   scoreboard: PropTypes.object.isRequired,
   clock: PropTypes.object.isRequired,
-  onStartClick: PropTypes.func.isRequired
+  onToggleClick: PropTypes.func.isRequired
 };
 
 export default Game

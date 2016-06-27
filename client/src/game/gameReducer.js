@@ -1,4 +1,4 @@
-import { GOAL, TICK } from './GameActions';
+import { GOAL, TICK, TOGGLE } from './GameActions';
 import { initialState } from '../app/initialState';
 
 export const scoreboard  = (state = initialState.scoreboard, action) => {
@@ -21,44 +21,53 @@ export const scoreboard  = (state = initialState.scoreboard, action) => {
   return state;
 }
 
-export const teams = (state = initialState.teams, action) => {
-  return state;
-}
+
+const tick = (state = initialState.clock, action) => {
+  if (!state.running) {
+    return state;
+  }
+  let time_remaining = state.time_remaining;
+  let period = state.period;
+  let running = state.running;
+  let minutes = parseInt(time_remaining.split(':')[0]);
+  let seconds = parseInt(time_remaining.split(':')[1]);
+  if (seconds === 0) {
+    if (minutes === 0) {
+      running = false;
+      if (period !== 3) {
+        period++;
+        seconds = '00';
+        minutes = '20';
+      }
+    } else {
+      minutes--;
+      seconds = '59'
+    }
+  } else {
+    seconds--;
+  }
+  minutes = '' + minutes;
+  seconds = '' + seconds;
+  if (minutes.length === 1) {
+    minutes = '0' + minutes;
+  }
+  if (seconds.length === 1) {
+    seconds = '0' + seconds;
+  }
+
+  return Object.assign({}, state, {
+      period,
+      running,
+      time_remaining: `${minutes}:${seconds}`
+  });
+};
 
 export const clock = (state = initialState.clock, action) => {
-
   switch (action.type) {
     case TICK:
-      let time_remaining = state.time_remaining;
-      let period = state.period;
-      let minutes = parseInt(time_remaining.split(':')[0]);
-      let seconds = parseInt(time_remaining.split(':')[1]);
-      if (seconds === 0) {
-        if (minutes === 0) {
-          if (period !== 3) {
-            period++;
-            seconds = '00';
-            minutes = '20';
-          }
-        } else {
-          minutes--;
-          seconds = '59'
-        }
-      } else {
-        seconds--;
-      }
-      minutes = '' + minutes;
-      seconds = '' + seconds;
-      if (minutes.length === 1) {
-        minutes = '0' + minutes;
-      }
-      if (seconds.length === 1) {
-        seconds = '0' + seconds;
-      }
-      return Object.assign({}, state, {
-          period: period,
-          time_remaining: `${minutes}:${seconds}`
-      });
+      return tick(state, action);
+    case TOGGLE:
+      return Object.assign({}, state, {running: !state.running});
     default:
       return state;
   }

@@ -1,10 +1,10 @@
-import * as app from '../src/app/app';
 import * as GameActions from '../src/game/GameActions';
 import { createStore } from 'redux';
 import { appReducer } from '../src/app/appReducer';
 import * as gameReducers from '../src/game/gameReducer.js';
 import chai from 'chai';
 import { initialState } from '../src/app/initialState';
+
 
 const expect = chai.expect;
 
@@ -19,36 +19,42 @@ describe('games', () => {
     });
 
     it('should score a goal for the home team', () => {
-      state = gameReducers.updateScore(state, {
+      state.scoreboard = gameReducers.scoreboard(state.scoreboard, {
         type: GameActions.GOAL,
-        team: state.home_team
+        team: state.scoreboard.home_team
       });
-      expect(state.home_score).to.equal(1);
-      expect(state.away_score).to.equal(0);
+      expect(state.scoreboard.home_score).to.equal(1);
+      expect(state.scoreboard.away_score).to.equal(0);
     });
 
     it('should score a goal for the away team', () => {
-      state = gameReducers.updateScore(state, {
+      state.scoreboard = gameReducers.scoreboard(state.scoreboard, {
         type: GameActions.GOAL,
-        team: state.away_team
+        team: state.scoreboard.away_team
       });
-      expect(state.home_score).to.equal(1);
-      expect(state.away_score).to.equal(1);
+      expect(state.scoreboard.home_score).to.equal(1);
+      expect(state.scoreboard.away_score).to.equal(1);
     });
 
-    it('should tick down the clock appropriately', () => {
-      for (let i = 0; i < 3; i++) {
-        for (let j = 0; j < 1200; j++) {
-          state = gameReducers.reduceTime(state, {
-            type: GameActions.TICK
-          });
-        }
-        expect(state.time_remaining).to.equal('00:00');
-        expect(state.period).to.equal(i + 1);
-        state = gameReducers.reduceTime(state, {
-            type: GameActions.TICK
-          });
+    it('should make the clock run', () => {
+      state.clock = gameReducers.clock(state.clock, {
+        type: GameActions.TOGGLE
+      });
+      expect(state.clock.running).to.be.true;
+    });
+
+    it('should tick to the end of a period', () => {
+      for (let j = 0; j < 1200; j++) {
+        state.clock = gameReducers.clock(state.clock, {
+          type: GameActions.TICK
+        });
       }
+      expect(state.clock.time_remaining).to.equal('00:00');
+
+      state.clock = gameReducers.clock(state.clock, {
+        type: GameActions.TICK
+      });
+      expect(state.clock.running).to.be.false;
     });
   });
 });

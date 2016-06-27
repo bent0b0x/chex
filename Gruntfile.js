@@ -28,6 +28,7 @@ module.exports = function(grunt) {
       },
       test: {
         src: ['client/dist/**/*.js'],
+        ignore: ['client/dist/**/app.js'],
         dest: 'client/test/app.js'
       }
     },

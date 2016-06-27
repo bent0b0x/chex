@@ -12,3 +12,9 @@ export const tick = () => {
     type: GameActions.TICK
   }
 }
+
+export const toggle = () => {
+  return {
+    type: GameActions.TOGGLE
+  }
+}

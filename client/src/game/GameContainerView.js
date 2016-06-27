@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import Game from './GameView';
-import { tick } from './Game';
+import { tick, toggle } from './Game';
 
 
 const mapStateToProps = (state) => {
@@ -11,17 +11,20 @@ const mapStateToProps = (state) => {
   };
 };
 
-
+let calledTick = false;
 
 const mapDispatchToProps = (dispatch) => {
-  const clock = (e) => {
-    setTimeout(() => {
-      dispatch(tick());
-      clock();
-    }, 1000);
-  };
   return {
-    onStartClick: clock
+    onToggleClick: () => {
+      dispatch(toggle());
+      if (calledTick) {
+        return;
+      }
+      setInterval(() => {
+        dispatch(tick());
+      });
+      calledTick = true;
+    }
   };
 };
 
