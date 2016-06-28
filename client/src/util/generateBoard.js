@@ -8,7 +8,12 @@ export default () => {
   for (let i = 0; i < 8; i++) {
     board[i] = [];
     for (let j = 0; j < 8; j++) {
-      board[i][j] = 0;
+      board[i][j] = {
+        row: i,
+        col: j,
+        selected: false,
+        piece: undefined
+      };
     }
   }
 
@@ -19,7 +24,7 @@ export default () => {
     //Pawns
     if (k === 1 || k === board.length - 2) {
       for (let m = 0; m < board.length; m++) {
-        board[k][m] = piece(color, pieceTypes.PAWN);
+        board[k][m].piece = piece(color, pieceTypes.PAWN);
       }
     }
 
@@ -27,23 +32,23 @@ export default () => {
       for (let n = 0; n < board.length; n++) {
         //Rooks
         if (n === 0 || n === board.length - 1) {
-          board[k][n] = piece(color, pieceTypes.ROOK);
+          board[k][n].piece = piece(color, pieceTypes.ROOK);
         }
         //Knights
         if (n === 1 || n === board.length - 2) {
-          board[k][n] = piece(color, pieceTypes.KNIGHT);
+          board[k][n].piece = piece(color, pieceTypes.KNIGHT);
         }
         //Bishops
         if (n === 2 || n === board.length - 3) {
-          board[k][n] = piece(color, pieceTypes.BISHOP);
+          board[k][n].piece = piece(color, pieceTypes.BISHOP);
         }
         //Queens
         if (n === 3) {
-          board[k][n] = piece(color, pieceTypes.QUEEN);
+          board[k][n].piece = piece(color, pieceTypes.QUEEN);
         }
         //Kings
         if (n === 4) {
-          board[k][n] = piece(color, pieceTypes.KING);
+          board[k][n].piece = piece(color, pieceTypes.KING);
         }
       }
     }

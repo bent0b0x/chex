@@ -53,7 +53,7 @@ module.exports = function(grunt) {
         tasks: ['babel', 'browserify:client']
       },
       sass: {
-        files: ['client/public/styles/**/*.scss'],
+        files: ['client/styles/**/*.scss'],
         tasks: ['concat', 'sass']
       }
     },

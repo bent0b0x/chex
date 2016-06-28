@@ -5,6 +5,7 @@ import * as colors from '../game/Colors';
 export default  {
   game: {
     started: false,
+    active_space: false,
     board: genBoard(),
     turn: colors.WHITE,
     top: colors.WHITE,
