@@ -27,12 +27,13 @@ module.exports = function(grunt) {
         src: ['client/dist/**/*.js', '!client/dist/bundle.js'],
         ignore: ['client/test/**/*'],
         dest: 'client/dist/bundle.js'
-      },
-      test: {
-        src: ['client/dist/**/*.js'],
-        ignore: ['client/dist/**/app.js'],
-        dest: 'client/test/bundle.js'
       }
+    },
+    clean: {
+      img: ['client/dist/img'],
+      js: ['client/dist/**/*.js', 'client/dist/**/*.js.map'],
+      dist: ['client/dist/'],
+      styles: ['client/dist/styles/']
     },
     concat: {
       sass: {
@@ -58,27 +59,28 @@ module.exports = function(grunt) {
     watch: {
       transpile: {
         files: ['client/src/**/*.js'],
-        tasks: ['babel', 'browserify:client']
+        tasks: ['build-js']
       },
       sass: {
         files: ['client/src/styles/**/*.scss'],
-        tasks: ['concat', 'sass']
+        tasks: ['build-styles']
       },
       img: {
         files: ['client/src/img/**/*'],
-        tasks: ['copy:img']
-      }
-    },
-    shell: {
-      testClient: {
-        command: 'mocha --compilers js:babel-register --recursive --require client/test/dom.js client/test' 
+        tasks: ['build-img']
       }
     }
   });
 
-  grunt.registerTask('testClient', ['babel', 'browserify:test', 'shell:testClient']);
+  grunt.registerTask('build-img', ['clean:img', 'copy:img']);
 
-  grunt.registerTask('dev', ['babel', 'browserify:client', 'concat', 'sass', 'copy', 'watch']);
+  grunt.registerTask('build-styles', ['clean:styles', 'concat', 'sass']);
+
+  grunt.registerTask('build-js', ['clean:js', 'babel', 'browserify:client']);
+
+  grunt.registerTask('build-all', ['clean:dist', 'build-js', 'build-img', 'build-styles']);
+
+  grunt.registerTask('dev', ['build-all', 'watch']);
 
   grunt.registerTask('default', ['dev']);
 
