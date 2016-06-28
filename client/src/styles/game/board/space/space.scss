@@ -19,7 +19,10 @@ $piece-colors: (
 
 .space {
 
+  border: 1px solid rgba(0,0,0,0);
+
   flex-grow: 1;
+
   &.WHITE {
     background-color: map-get($space-colors, WHITE);
   }
@@ -28,7 +31,7 @@ $piece-colors: (
     color: white;
   }
   &.selected {
-    border: 1px solid red;
+    border: 1px solid $accent-color;
   }
 
   @each $piece in $pieces {
