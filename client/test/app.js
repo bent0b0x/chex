@@ -142,7 +142,6 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var mapStateToProps = function mapStateToProps(state) {
   return {
-    teams: state.teams,
     clock: state.clock,
     scoreboard: state.scoreboard
   };
@@ -188,7 +187,6 @@ var _reactRedux = require('react-redux');
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var Game = function Game(_ref) {
-  var teams = _ref.teams;
   var scoreboard = _ref.scoreboard;
   var clock = _ref.clock;
   var onToggleClick = _ref.onToggleClick;
@@ -208,13 +206,13 @@ var Game = function Game(_ref) {
       'h2',
       null,
       'Home Team: ',
-      teams.home_team
+      scoreboard.home_team
     ),
     _react2.default.createElement(
       'h2',
       null,
       'Away Team: ',
-      teams.away_team
+      scoreboard.away_team
     ),
     _react2.default.createElement(
       'div',
@@ -246,7 +244,6 @@ var Game = function Game(_ref) {
 };
 
 Game.propTypes = {
-  teams: _react.PropTypes.object.isRequired,
   scoreboard: _react.PropTypes.object.isRequired,
   clock: _react.PropTypes.object.isRequired,
   onToggleClick: _react.PropTypes.func.isRequired

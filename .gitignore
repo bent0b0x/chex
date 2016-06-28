@@ -2,3 +2,5 @@ node_modules/
 
 client/dist
 
+client/public/**/*.css
+

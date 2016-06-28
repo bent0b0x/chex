@@ -1,20 +1,11 @@
-import * as GameActions from './GameActions';
+import React from 'react';
+import Board from './board/Board';
+import Clock from './clock/Clock';
 
-export const score = (team) => {
-  return {
-    type: GameActions.GOAL,
-    team: team
-  }
-}
-
-export const tick = () => {
-  return {
-    type: GameActions.TICK
-  }
-}
-
-export const toggle = () => {
-  return {
-    type: GameActions.TOGGLE
-  }
+export default ({ board }) => {
+  return <div class="game">
+      Game
+      <Board board={board} />
+      <Clock />
+    </div>
 }

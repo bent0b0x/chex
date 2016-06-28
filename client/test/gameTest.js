@@ -1,10 +1,12 @@
 import * as GameActions from '../src/game/GameActions';
+import TestUtils from 'react-addons-test-utils';
+import React from 'react';
+import Game from '../src/game/GameView';
 import { createStore } from 'redux';
 import { appReducer } from '../src/app/appReducer';
 import * as gameReducers from '../src/game/gameReducer.js';
 import chai from 'chai';
 import { initialState } from '../src/app/initialState';
-
 
 const expect = chai.expect;
 
@@ -55,6 +57,31 @@ describe('games', () => {
         type: GameActions.TICK
       });
       expect(state.clock.running).to.be.false;
+    });
+  });
+
+
+  describe('components', () => {
+    before('render game', () => {
+      const renderedComponent = TestUtils.renderIntoDocument(
+        <Game 
+          scoreboard={initialState.scoreboard}
+          clock={initialState.clock}
+        />
+      );
+
+      console.log(renderedComponent);
+
+
+      const toggleButton = TestUtils.findRenderedDOMComponentWithClass(
+        renderedComponent,
+        'toggle'
+      );
+    });
+
+    it('should have a toggle button', () => {
+      console.log(this.toggleButton);
+      expect(true).to.be.true;
     });
   });
 });
