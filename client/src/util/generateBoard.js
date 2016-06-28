@@ -17,7 +17,6 @@ export default () => {
     }
   }
 
-  //Pawns
   for (let k = 0; k < 8; k++) {
     let color = k < board.length / 2 ? colors.WHITE : colors.BLACK;
 
