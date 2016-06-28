@@ -17,9 +17,11 @@ $piece-colors: (
   "WHITE"
 );
 
+$border-width: 8px;
+
 .space {
 
-  border: 1px solid rgba(0,0,0,0);
+  border: $border-width solid rgba(0,0,0,0);
 
   flex-grow: 1;
 
@@ -31,7 +33,7 @@ $piece-colors: (
     color: white;
   }
   &.selected {
-    border: 1px solid $accent-color;
+    border: $border-width solid $accent-color;
   }
 
   @each $piece in $pieces {
