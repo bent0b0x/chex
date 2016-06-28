@@ -1,0 +1,12 @@
+.space {
+
+  flex-grow: 1;
+  &.WHITE {
+    background-color: white;
+  }
+  &.BLACK {
+    background-color: black;
+    color: white;
+  }
+}
+

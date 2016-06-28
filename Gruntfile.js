@@ -2,6 +2,8 @@ module.exports = function(grunt) {
 
   require('load-grunt-tasks')(grunt);
 
+  grunt.loadTasks('./tasks');
+
   grunt.initConfig({
     babel: {
       options: {
@@ -32,10 +34,16 @@ module.exports = function(grunt) {
         dest: 'client/test/bundle.js'
       }
     },
+    concat: {
+      sass: {
+        src: ['client/src/styles/**/*.scss', '!client/src/styles/styles.scss'],
+        dest: 'client/src/styles/styles.scss'
+      }
+    },
     sass: {
       dist: {
         files: {
-          'client/public/styles/styles.css': 'client/public/styles/styles.scss'
+          'client/dist/styles/styles.css': 'client/src/styles/styles.scss'
         }
       }
     },
@@ -46,7 +54,7 @@ module.exports = function(grunt) {
       },
       sass: {
         files: ['client/public/styles/**/*.scss'],
-        tasks: ['sass']
+        tasks: ['concat', 'sass']
       }
     },
     shell: {
@@ -58,7 +66,7 @@ module.exports = function(grunt) {
 
   grunt.registerTask('testClient', ['babel', 'browserify:test', 'shell:testClient']);
 
-  grunt.registerTask('dev', ['babel', 'browserify:client', 'sass', 'watch']);
+  grunt.registerTask('dev', ['babel', 'browserify:client', 'concat', 'sass', 'watch']);
 
   grunt.registerTask('default', ['dev']);
 

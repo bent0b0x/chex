@@ -1,7 +1,6 @@
 import React from 'react';
 
-export default ({ color }) => (
+export default ({ color, content }) => (
     <div className={`space ${color}`}>
-      Space
     </div>
 );

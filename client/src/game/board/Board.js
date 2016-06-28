@@ -1,5 +1,5 @@
 import React from 'react';
-import Space from './space/Space';
+import SpaceContainer from './space/SpaceContainer';
 import * as colors from '../util/Colors';
 
 export default ({ board }) => (
@@ -10,7 +10,12 @@ export default ({ board }) => (
             {
               row.map((space, j) => {
                 const color = i % 2 !== j % 2 ? colors.BLACK : colors.WHITE;
-                return <Space key={`${i},${j}`} color={color} />
+                return <SpaceContainer 
+                          key={`${i},${j}`} 
+                          color={color} 
+                          row={i}
+                          col={j} 
+                        />
               })
             }
           </div>

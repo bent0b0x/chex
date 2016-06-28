@@ -207,9 +207,9 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
-var _Space = require('./space/Space');
+var _SpaceContainer = require('./space/SpaceContainer');
 
-var _Space2 = _interopRequireDefault(_Space);
+var _SpaceContainer2 = _interopRequireDefault(_SpaceContainer);
 
 var _Colors = require('../util/Colors');
 
@@ -232,7 +232,12 @@ exports.default = function (_ref) {
         },
         row.map(function (space, j) {
           var color = i % 2 !== j % 2 ? colors.BLACK : colors.WHITE;
-          return _react2.default.createElement(_Space2.default, { key: i + ',' + j, color: color, __self: undefined
+          return _react2.default.createElement(_SpaceContainer2.default, {
+            key: i + ',' + j,
+            color: color,
+            row: i,
+            col: j,
+            __self: undefined
           });
         })
       );
@@ -241,7 +246,7 @@ exports.default = function (_ref) {
 };
 
 
-},{"../util/Colors":22,"./space/Space":17,"react":208}],12:[function(require,module,exports){
+},{"../util/Colors":22,"./space/SpaceContainer":18,"react":208}],12:[function(require,module,exports){
 "use strict";
 
 
@@ -280,7 +285,7 @@ exports.default = function () {
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
-  value: true
+    value: true
 });
 
 var _react = require('react');
@@ -290,21 +295,41 @@ var _react2 = _interopRequireDefault(_react);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 exports.default = function (_ref) {
-  var color = _ref.color;
-  return _react2.default.createElement(
-    'div',
-    { className: 'space ' + color, __self: undefined
-    },
-    'Space'
-  );
+    var color = _ref.color;
+    var content = _ref.content;
+    return _react2.default.createElement('div', { className: 'space ' + color, __self: undefined
+    });
 };
 
 
 },{"react":208}],18:[function(require,module,exports){
-"use strict";
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _reactRedux = require('react-redux');
+
+var _Space = require('./Space');
+
+var _Space2 = _interopRequireDefault(_Space);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var mapStateToProps = function mapStateToProps(state, ownProps) {
+  return {
+    content: state.game.board[ownProps.row][ownProps.col],
+    color: ownProps.color
+  };
+};
+
+var SpaceContainer = (0, _reactRedux.connect)(mapStateToProps)(_Space2.default);
+
+exports.default = SpaceContainer;
 
 
-},{}],19:[function(require,module,exports){
+},{"./Space":17,"react-redux":33}],19:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
