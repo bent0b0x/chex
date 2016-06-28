@@ -7,7 +7,7 @@ export default (state = initialState.game.board, action) => {
     row.map(space => {
       switch (action.type) {
         case SpaceActions.SELECT:
-          if (!space.selected && (space.row !== action.row || space.col !== action.col)) {
+          if (!space.piece || !space.selected && (space.row !== action.row || space.col !== action.col)) {
             return space;
           }
           return spaceReducer(space, action);
