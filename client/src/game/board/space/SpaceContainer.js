@@ -5,7 +5,7 @@ import Space from './Space';
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    content: state.game.board[ownProps.row][ownProps.col],
+    content: state.game.board[ownProps.row][ownProps.col].piece,
     row: ownProps.row,
     col: ownProps.col,
     color: ownProps.color,

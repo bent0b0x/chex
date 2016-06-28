@@ -1,3 +1,17 @@
+$pieces: (
+  PAWN,
+  ROOK,
+  KNIGHT,
+  BISHOP,
+  QUEEN,
+  KING
+);
+
+$colors: (
+  "BLACK",
+  "WHITE"
+);
+
 .space {
 
   flex-grow: 1;
@@ -11,5 +25,17 @@
   &.selected {
     border: 1px solid red;
   }
+
+  @each $piece in $pieces {
+    @each $color in $colors {
+      &.#{$piece}-#{$color} {
+        background-image: url("../img/pieces/#{$piece}-#{$color}.svg");
+      }
+    }
+  }
+
+  background-position: center;
+  background-repeat: no-repeat;
 }
+
 

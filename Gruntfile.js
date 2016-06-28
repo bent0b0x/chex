@@ -40,6 +40,14 @@ module.exports = function(grunt) {
         dest: 'client/src/styles/styles.scss'
       }
     },
+    copy: {
+      img: {
+        expand: true,
+        src: ['**'],
+        dest: 'client/dist/img/',
+        cwd: 'client/src/img'
+      }
+    },
     sass: {
       dist: {
         files: {
@@ -53,8 +61,12 @@ module.exports = function(grunt) {
         tasks: ['babel', 'browserify:client']
       },
       sass: {
-        files: ['client/styles/**/*.scss'],
+        files: ['client/src/styles/**/*.scss'],
         tasks: ['concat', 'sass']
+      },
+      img: {
+        files: ['client/src/img/**/*'],
+        tasks: ['copy:img']
       }
     },
     shell: {
@@ -66,7 +78,7 @@ module.exports = function(grunt) {
 
   grunt.registerTask('testClient', ['babel', 'browserify:test', 'shell:testClient']);
 
-  grunt.registerTask('dev', ['babel', 'browserify:client', 'concat', 'sass', 'watch']);
+  grunt.registerTask('dev', ['babel', 'browserify:client', 'concat', 'sass', 'copy', 'watch']);
 
   grunt.registerTask('default', ['dev']);
 
