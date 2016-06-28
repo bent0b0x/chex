@@ -24,9 +24,9 @@ module.exports = function(grunt) {
     },
     browserify: {
       client: {
-        src: ['client/dist/**/*.js'],
+        src: ['client/dist/**/*.js', '!client/dist/bundle.js'],
         ignore: ['client/test/**/*'],
-        dest: 'client/bundle.js'
+        dest: 'client/dist/bundle.js'
       },
       test: {
         src: ['client/dist/**/*.js'],

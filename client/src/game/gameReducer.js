@@ -16,7 +16,6 @@ const active_piece = (state = initialState.game.active_space, action) => {
           col: action.col
         }
       }
-      console.log(newState);
       return newState;
     default:
       return state;

@@ -1,14 +1,20 @@
 import initialState from '../../app/initialState';
+import * as SpaceActions from './space/spaceActions';
 import spaceReducer from './space/spaceReducer';
 
 export default (state = initialState.game.board, action) => {
-  let newState = [];
-  state.forEach(row => {
-    const newRow = [];
-    newState.push(newRow);
-    row.forEach(space => {
-      newRow.push(spaceReducer(space, action));
-    });
-  });
-  return newState;
+  return state.map(row => (
+    row.map(space => {
+      console.log(space, action);
+      switch (action.type) {
+        case SpaceActions.SELECT:
+          if (!space.selected && (space.row !== action.row || space.col !== action.col)) {
+            return space;
+          }
+          return spaceReducer(space, action);
+        default:
+          return space;
+      }
+    })
+  ))
 };
