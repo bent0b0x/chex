@@ -7,7 +7,12 @@ $pieces: (
   KING
 );
 
-$colors: (
+$space-colors: (
+  BLACK: #675c56,
+  WHITE: #d5ccbd
+);
+
+$piece-colors: (
   "BLACK",
   "WHITE"
 );
@@ -16,10 +21,10 @@ $colors: (
 
   flex-grow: 1;
   &.WHITE {
-    background-color: white;
+    background-color: map-get($space-colors, WHITE);
   }
   &.BLACK {
-    background-color: black;
+    background-color: map-get($space-colors, BLACK);
     color: white;
   }
   &.selected {
@@ -27,7 +32,7 @@ $colors: (
   }
 
   @each $piece in $pieces {
-    @each $color in $colors {
+    @each $color in $piece-colors {
       &.#{$piece}-#{$color} {
         background-image: url("../img/pieces/#{$piece}-#{$color}.svg");
       }
@@ -36,6 +41,7 @@ $colors: (
 
   background-position: center;
   background-repeat: no-repeat;
+  background-size: 80% 80%;
 }
 
 

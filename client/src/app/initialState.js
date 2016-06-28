@@ -1,6 +1,6 @@
 import genBoard from '../util/generateBoard';
 import genClock from '../util/generateClock';
-import * as colors from '../game/Colors';
+import * as colors from '../game/util/PieceColors';
 
 export default  {
   game: {

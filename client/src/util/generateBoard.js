@@ -1,6 +1,6 @@
 import piece from './pieceFactory';
 import * as pieceTypes from '../game/util/Pieces';
-import * as colors from '../game/util/Colors';
+import * as colors from '../game/util/PieceColors';
 
 export default () => {
   const board = [];
@@ -19,7 +19,7 @@ export default () => {
 
   //Pawns
   for (let k = 0; k < 8; k++) {
-    let color = k < board.length / 2 ? colors.BLACK : colors.WHITE;
+    let color = k < board.length / 2 ? colors.WHITE : colors.BLACK;
 
     //Pawns
     if (k === 1 || k === board.length - 2) {

@@ -1,4 +1,4 @@
-import * as colors from '../game/Colors';
+import * as colors from '../game/util/PieceColors';
 
 export default () => {
   let clock = {};
