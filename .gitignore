@@ -2,7 +2,7 @@ node_modules/
 
 client/dist
 
-client/public/**/*.css
+client/src/styles/styles.scss
 
 .sass-cache/
 
