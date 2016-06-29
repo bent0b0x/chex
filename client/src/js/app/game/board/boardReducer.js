@@ -1,5 +1,5 @@
 import initialState from '../../../app/initialState';
-import * as SpaceActions from './space/spaceActions';
+import * as SpaceActions from './space/SpaceActions';
 import spaceReducer from './space/spaceReducer';
 
 export default (state = initialState.game.board, action) => {
