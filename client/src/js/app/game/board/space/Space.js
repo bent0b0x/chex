@@ -1,11 +1,11 @@
 import React from 'react';
 
-export default ({ color, content, selected, onClick }) => (
+export default ({ color, content, active, onClick }) => (
     <div 
       className={
         `
         space ${color} 
-        ${(selected ? ' selected' : '')}
+        ${(active ? ' active' : '')}
         ${content ? content.type + '-' + content.color : ''}
         `
       }

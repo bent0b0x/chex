@@ -9,7 +9,7 @@ const mapStateToProps = (state, ownProps) => {
     row: ownProps.row,
     col: ownProps.col,
     color: ownProps.color,
-    selected: state.game.board[ownProps.row][ownProps.col].selected
+    active: state.game.board[ownProps.row][ownProps.col].active
   };
 };
 

@@ -11,8 +11,9 @@ export default () => {
       board[i][j] = {
         row: i,
         col: j,
-        selected: false,
-        piece: undefined
+        active: false,
+        piece: undefined,
+        hasMoved: false
       };
     }
   }

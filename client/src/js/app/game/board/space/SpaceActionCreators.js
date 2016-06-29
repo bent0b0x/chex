@@ -6,4 +6,12 @@ export const select = (row, col) => (
     row,
     col
   }
-) 
+);
+
+export const move_piece = (row, col) => (
+  {
+    type: Actions.MOVE_PIECE,
+    row,
+    col
+  }
+);

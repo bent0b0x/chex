@@ -32,7 +32,7 @@ $border-width: 8px;
     background-color: map-get($space-colors, BLACK);
     color: white;
   }
-  &.selected {
+  &.active {
     border: $border-width solid $accent-color;
   }
 

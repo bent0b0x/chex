@@ -2,7 +2,7 @@ import genBoard from '../util/generateBoard';
 import genClock from '../util/generateClock';
 import * as colors from './game/util/PieceColors';
 
-export default  {
+export default {
   game: {
     started: false,
     active_space: false,
