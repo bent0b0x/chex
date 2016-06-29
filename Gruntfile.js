@@ -30,8 +30,8 @@ module.exports = function(grunt) {
       }
     },
     clean: {
-      img: ['client/dist/img'],
-      js: ['client/dist/**/*.js', 'client/dist/**/*.js.map'],
+      img: ['client/dist/img/'],
+      js: ['client/dist/js/'],
       dist: ['client/dist/'],
       styles: ['client/dist/styles/']
     },
@@ -55,6 +55,9 @@ module.exports = function(grunt) {
           'client/dist/styles/styles.css': 'client/src/styles/styles.scss'
         }
       }
+    },
+    shell: {
+      'test-client': 'mocha --compilers js:babel-register --recursive client/test'
     },
     watch: {
       transpile: {
