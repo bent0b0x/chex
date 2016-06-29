@@ -1,6 +1,6 @@
 import piece from './pieceFactory';
-import * as pieceTypes from '../game/util/Pieces';
-import * as colors from '../game/util/PieceColors';
+import * as pieceTypes from '../app/game/util/Pieces';
+import * as colors from '../app/game/util/PieceColors';
 
 export default () => {
   const board = [];

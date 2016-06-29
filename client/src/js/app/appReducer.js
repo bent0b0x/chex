@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux';
-import game from '../game/gameReducer';
+import game from './game/gameReducer';
 import { initialState } from './initialState';
 
-export const appReducer = combineReducers(
+export default combineReducers(
   { game }
 );

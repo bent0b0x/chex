@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import * as Actions from './SpaceActions';
+import { select } from './SpaceActionCreators';
 import Space from './Space';
 
 
@@ -16,11 +16,7 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     onClick: () => {
-      dispatch({
-        type: Actions.SELECT,
-        row: ownProps.row,
-        col: ownProps.col
-      })
+      dispatch(select(ownProps.row, ownProps.col));
     }
   }
 }

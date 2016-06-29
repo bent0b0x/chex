@@ -1,4 +1,4 @@
-import initialState from '../../app/initialState';
+import initialState from '../../../app/initialState';
 import * as SpaceActions from './space/spaceActions';
 import spaceReducer from './space/spaceReducer';
 
