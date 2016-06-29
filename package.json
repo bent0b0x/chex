@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "nodemon server/app.js",
-    "test": "mocha --compilers js:babel-register --recursive client/test",
+    "test": "grunt test",
     "test:watch": "npm test -- --watch"
   },
   "author": "bent0b0x",
