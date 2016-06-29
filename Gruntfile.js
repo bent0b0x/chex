@@ -75,6 +75,8 @@ module.exports = function(grunt) {
     }
   });
 
+  grunt.registerTask('test-client', ['shell:test-client']);
+
   grunt.registerTask('build-img', ['clean:img', 'copy:img']);
 
   grunt.registerTask('build-styles', ['clean:styles', 'concat', 'sass']);
