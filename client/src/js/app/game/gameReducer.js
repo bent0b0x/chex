@@ -5,14 +5,22 @@ import validator from './util/moveValidator';
 import * as SpaceActions from './board/space/SpaceActions';
 
 const handleSelect = (state, {row, col}) => {
-  console.log(row, col);
   if (!state.active_space) {
-    state.active_space = state.board[row][col];
-    state.active_space.active = true;
+    if (state.board[row][col].piece) {
+      state.active_space = state.board[row][col];
+      state.active_space.active = true;
+    }
   } else {
     if (state.active_space.row === row && state.active_space.col === col) {
       state.active_space.active = false;
       state.active_space = false;
+    } else {
+      if (!state.board[row][col].piece || state.board[row][col].piece.color !== state.active_space.piece.color) {
+        state.board[row][col].piece = state.active_space.piece;
+        state.active_space.piece = undefined;
+        state.active_space.active = false;
+        state.active_space = false;
+      }
     }
   }
   return state;
