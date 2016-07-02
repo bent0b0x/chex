@@ -54,6 +54,22 @@ export default (origSpace, destSpace, game) => {
       if (origSpace.row !== destSpace.row && origSpace.col !== destSpace.col) {
         return false;
       }
+      if (origSpace.row === destSpace.row) {
+        const dir = origSpace.col < destSpace.col ? 1 : -1; 
+        for (let i = origSpace.col + dir; i !== destSpace.col; i += dir) {
+          if (game.board[origSpace.row][i].piece) {
+            return false;
+          }
+        }
+      }
+      if (origSpace.col === destSpace.col) {
+        const dir = origSpace.row < destSpace.row ? 1 : -1; 
+        for (let i = origSpace.row + dir; i !== destSpace.row; i += dir) {
+          if (game.board[i][origSpace.col].piece) {
+            return false;
+          }
+        }
+      }
       break;
     default: 
       return true;

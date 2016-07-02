@@ -77,26 +77,26 @@ describe('game', () => {
           const piece = state.board[1][0].piece;
           state.board[2][0].piece = state.board[7][7].piece;
           attemptMove(state, 1, 0, 2, 0);
-          expect(state.board[1][0].piece).to.deep.equal(piece);
-          expect(state.board[2][0].piece).to.deep.equal(state.board[7][7].piece);
+          expect(state.board[1][0].piece).to.equal(piece);
+          expect(state.board[2][0].piece).to.equal(state.board[7][7].piece);
         });
         it ('should not permit a pawn to move more than one space, vertically', () => {
           const piece = state.board[1][0].piece;
           attemptMove(state, 1, 0, 4, 0);
-          expect(state.board[1][0].piece).to.deep.equal(piece);
+          expect(state.board[1][0].piece).to.equal(piece);
           expect(state.board[4][0].piece).to.be.undefined;
         });
         it ('should not permit a pawn to move backwards, vertically', () => {
           const piece = state.board[1][0].piece;
           state.board[4][0].piece = piece;
           attemptMove(state, 4, 0, 2, 0);
-          expect(state.board[4][0].piece).to.deep.equal(piece);
+          expect(state.board[4][0].piece).to.equal(piece);
           expect(state.board[2][0].piece).to.be.undefined;
         });
         it('should not permit a pawn to move horizontally', () => {
           const piece = state.board[3][0].piece;
           attemptMove(state, 3, 0, 3, 1);
-          expect(state.board[3][0].piece).to.deep.equal(piece);
+          expect(state.board[3][0].piece).to.equal(piece);
           expect(state.board[3][1].piece).to.be.undefined;
         });
         it('should permit a pawn to move diagonally if an opponent is in the destination', () => {
@@ -116,22 +116,22 @@ describe('game', () => {
           const piece = state.board[1][0].piece;
           piece.hasMoved = true;
           attemptMove(state, 1, 0, 3, 0);
-          expect(state.board[1][0].piece).to.deep.equal(piece);
+          expect(state.board[1][0].piece).to.equal(piece);
           expect(state.board[3][0].piece).to.be.undefined;
         });
         it('should not permit a pawn to move two vertical spaces if there is a piece on the way', () => {
           const piece = state.board[1][0].piece;
           state.board[2][0].piece = Object.assign({}, state.board[7][7].piece);
           attemptMove(state, 1, 0, 3, 0);
-          expect(state.board[1][0].piece).to.deep.equal(piece);
+          expect(state.board[1][0].piece).to.equal(piece);
           expect(state.board[3][0].piece).to.be.undefined;
         });
         it('should not permit a pawn to move one space, vertically, if a piece is in the destination', () => {
           const piece = state.board[1][0].piece;
           state.board[3][0].piece = state.board[7][7].piece;
           attemptMove(state, 1, 0, 3, 0);
-          expect(state.board[1][0].piece).to.deep.equal(piece);
-          expect(state.board[3][0].piece).to.deep.equal(state.board[7][7].piece);
+          expect(state.board[1][0].piece).to.equal(piece);
+          expect(state.board[3][0].piece).to.equal(state.board[7][7].piece);
         });
       });
       describe('bishops', () => {
@@ -146,14 +146,14 @@ describe('game', () => {
         it('should not permit a vertical move', () => {
           const piece = state.board[7][2].piece;
           attemptMove(state, 7, 2, 4, 2);
-          expect(state.board[7][2].piece).to.deep.equal(piece);
+          expect(state.board[7][2].piece).to.equal(piece);
           expect(state.board[4][2].piece).to.be.undefined;
         });
         it('should not be permit a horizontal move', () => {
           state.board[4][0].piece = state.board[7][2].piece;
           const piece = state.board[4][0].piece;
           attemptMove(state, 4, 0, 4, 6);
-          expect(state.board[4][0].piece).to.deep.equal(piece);
+          expect(state.board[4][0].piece).to.equal(piece);
           expect(state.board[4][6].piece).to.be.undefined;
         });
         it('should permit a diagnoal move', () => {
@@ -165,29 +165,29 @@ describe('game', () => {
         it('should not permit a diagnoal move at the wrong angle', () => {
           const piece = state.board[7][2].piece;
           attemptMove(state, 7, 2, 6, 0);
-          expect(state.board[7][2].piece).to.deep.equal(piece);
+          expect(state.board[7][2].piece).to.equal(piece);
           expect(state.board[6][0].piece).to.be.undefined;
         });
         it('should not permit a move when a piece is in the way', () => {
           const piece = state.board[7][2].piece;
           state.board[3][6].piece = state.board[7][7].piece;
           attemptMove(state, 7, 2, 2, 7);
-          expect(state.board[7][2].piece).to.deep.equal(piece);
+          expect(state.board[7][2].piece).to.equal(piece);
           expect(state.board[2][7].piece).to.be.undefined;
         });
         it('should permit a move when an opposing piece is at the destination', () => {
           const piece = state.board[7][2].piece;
           state.board[6][3].piece = state.board[0][0].piece;
           attemptMove(state, 7, 2, 6, 3);
-          expect(state.board[6][3].piece).to.deep.equal(piece);
+          expect(state.board[6][3].piece).to.equal(piece);
           expect(state.board[7][2].piece).to.be.undefined;
         });
         it('should not permit a move when a teammate piece is at the destination', () => {
           const piece = state.board[7][2].piece;
           state.board[6][3].piece = state.board[7][7].piece;
           attemptMove(state, 7, 2, 6, 3);
-          expect(state.board[7][2].piece).to.deep.equal(piece);
-          expect(state.board[6][3].piece).to.deep.equal(state.board[7][7].piece);
+          expect(state.board[7][2].piece).to.equal(piece);
+          expect(state.board[6][3].piece).to.equal(state.board[7][7].piece);
         });
       });
       describe('rooks', () => {
@@ -207,17 +207,38 @@ describe('game', () => {
           expect(state.board[0][6].piece).to.deep.equal(piece);
           expect(state.board[0][0].piece).to.be.undefined;
         });
+        it('should not permit a horizontal move if a piece is in the way', () => {
+          const piece = state.board[0][0].piece;
+          state.board[0][2].piece = state.board[7][7].piece;
+          attemptMove(state, 0, 0, 0, 6);
+          expect(state.board[0][0].piece).to.equal(piece);
+          expect(state.board[0][6].piece).to.be.undefined;
+        });
         it('should permit a vertical move', () => {
           const piece = state.board[0][0].piece;
           attemptMove(state, 0, 0, 5, 0);
           expect(state.board[5][0].piece).to.deep.equal(piece);
           expect(state.board[0][0].piece).to.be.undefined;
         });
+        it('should not permit a vertical move if a piece is in the way', () => {
+          const piece = state.board[0][0].piece;
+          state.board[2][0].piece = state.board[7][7].piece;
+          attemptMove(state, 0, 0, 4, 0);
+          expect(state.board[0][0].piece).to.equal(piece);
+          expect(state.board[0][6].piece).to.be.undefined;
+        });
         it('should not permit a diagonal move', () => {
           const piece = state.board[0][0].piece;
           attemptMove(state, 0, 0, 1, 5);
-          expect(state.board[0][0].piece).to.deep.equal(piece);
+          expect(state.board[0][0].piece).to.equal(piece);
           expect(state.board[1][5].piece).to.be.undefined;
+        });
+        it('should not permit a move if a teammate is at the destination', () => {
+          const piece = state.board[0][0].piece;
+          const destPiece = state.board[0][7].piece;
+          attemptMove(state, 0, 0, 0, 7);
+          expect(state.board[0][0].piece).to.equal(piece);
+          expect(state.board[0][7].piece).to.equal(destPiece);
         });
       });
     });
