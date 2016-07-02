@@ -49,6 +49,11 @@ describe('game', () => {
       expect(state.board[2][0].piece).to.deep.equal(piece);
       expect(state.board[1][0].piece).to.be.undefined;
     });
+    it('should mark a piece as having moved', () => {
+      const piece = state.board[1][0].piece;
+      attemptMove(state, 1, 0, 2, 0);
+      expect(piece.hasMoved).to.be.true;
+    });
     it('should not move a piece to a space where its teammate already is', () => {
       const movingPiece = state.board[1][0].piece;
       const teammatePiece = state.board[0][0].piece;

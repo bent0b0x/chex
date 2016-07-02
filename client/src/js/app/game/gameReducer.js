@@ -3,7 +3,6 @@ import { combineReducers } from 'redux';
 import clock from './clock/clockReducer';
 import validator from './util/moveValidator';
 import * as SpaceActions from './board/space/SpaceActions';
-import cloneBoard from './util/cloneBoard';
 
 
 const handleSelect = (state, {row, col}) => {
@@ -21,6 +20,7 @@ const handleSelect = (state, {row, col}) => {
         if (validator(state.active_space, state.board[row][col], state)) {
           state.board[row][col] = Object.assign({}, state.board[row][col]);
           state.board[row][col].piece = state.active_space.piece;
+          state.board[row][col].piece.hasMoved = true;
           state.board[state.active_space.row][state.active_space.col] = Object.assign({}, state.active_space, {piece: undefined, active: false});
           state.active_space = false;
         }

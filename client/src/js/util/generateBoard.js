@@ -12,8 +12,7 @@ export default () => {
         row: i,
         col: j,
         active: false,
-        piece: undefined,
-        hasMoved: false
+        piece: undefined
       };
     }
   }
