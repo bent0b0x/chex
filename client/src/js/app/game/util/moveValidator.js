@@ -23,6 +23,9 @@ export default (origSpace, destSpace, game) => {
       if (origSpace.col === destSpace.col || origSpace.row === destSpace.row) {
         return false;
       }
+      if (Math.abs(origSpace.col - destSpace.col) !== Math.abs(origSpace.row - destSpace.row)) {
+        return false;
+      }
       break;
     default: 
       return true;

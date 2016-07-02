@@ -128,19 +128,34 @@ describe('game', () => {
           state.board[6].forEach((pawn, index) => {
             state.board[6][index].piece = undefined;
           });
+          state.board[1].forEach((pawn, index) => {
+            state.board[1][index].piece = undefined;
+          });
         });
-        it('should not be able to move vertically', () => {
+        it('should not permit a vertical move', () => {
           const piece = state.board[7][2].piece;
           attemptMove(state, 7, 2, 4, 2);
           expect(state.board[7][2].piece).to.deep.equal(piece);
           expect(state.board[4][2].piece).to.be.undefined;
         });
-        it('should not be able to move horizontally', () => {
+        it('should not be permit a horizontal move', () => {
           state.board[4][0].piece = state.board[7][2].piece;
           const piece = state.board[4][0].piece;
           attemptMove(state, 4, 0, 4, 6);
           expect(state.board[4][0].piece).to.deep.equal(piece);
           expect(state.board[4][6].piece).to.be.undefined;
+        });
+        it('should permit a diagnoal move', () => {
+          const piece = state.board[7][2].piece;
+          attemptMove(state, 7, 2, 6, 1);
+          expect(state.board[6][1].piece).to.deep.equal(piece);
+          expect(state.board[7][2].piece).to.be.undefined;
+        });
+        it('should not permit a diagnoal move at the wrong angle', () => {
+          const piece = state.board[7][2].piece;
+          attemptMove(state, 7, 2, 6, 0);
+          expect(state.board[7][2].piece).to.deep.equal(piece);
+          expect(state.board[6][0].piece).to.be.undefined;
         });
       });
     });
