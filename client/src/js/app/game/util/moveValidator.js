@@ -3,7 +3,6 @@ import * as Pieces from './Pieces';
 export default (origSpace, destSpace, game) => {
   switch (origSpace.piece.type) {
     case Pieces.PAWN:
-      //Vertical move
       if (origSpace.col !== destSpace.col) {
         if (!destSpace.piece ||  destSpace.piece.color === origSpace.piece.color) {
           return false;          
@@ -15,6 +14,12 @@ export default (origSpace, destSpace, game) => {
           return false;             
         }
       }
+      break;
+    case Pieces.BISHOP:
+      if (origSpace.col === destSpace.col || origSpace.row === destSpace.row) {
+        return false;
+      }
+      break;
     default: 
       return true;
   }

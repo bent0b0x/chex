@@ -94,12 +94,32 @@ describe('game', () => {
           expect(state.board[3][0].piece).to.deep.equal(piece);
           expect(state.board[1][0].piece).to.be.undefined;
         });
-        it('should not permit a pawn to move two vertical spaces if there is a piece in the way', () => {
+          it('should not permit a pawn to move two vertical spaces if there is a piece in the way', () => {
           const piece = state.board[1][0].piece;
           state.board[2][0].piece = Object.assign({}, state.board[7][7].piece);
           attemptMove(state, 1, 0, 3, 0);
           expect(state.board[1][0].piece).to.deep.equal(piece);
           expect(state.board[3][0].piece).to.be.undefined;
+        });
+      });
+      describe('bishops', () => {
+        beforeEach(() => {
+          state.board[6].forEach((pawn, index) => {
+            state.board[6][index].piece = undefined;
+          });
+        });
+        it('should not be able to move vertically', () => {
+          const piece = state.board[7][2].piece;
+          attemptMove(state, 7, 2, 4, 2);
+          expect(state.board[7][2].piece).to.deep.equal(piece);
+          expect(state.board[4][2].piece).to.be.undefined;
+        });
+        it('should not be able to move horizontally', () => {
+          state.board[4][0].piece = state.board[7][2].piece;
+          const piece = state.board[4][0].piece;
+          attemptMove(state, 4, 0, 4, 6);
+          expect(state.board[4][0].piece).to.deep.equal(piece);
+          expect(state.board[4][6].piece).to.be.undefined;
         });
       });
     });
