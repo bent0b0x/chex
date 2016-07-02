@@ -13,6 +13,9 @@ export default (origSpace, destSpace, game) => {
         }
       }
       let diff = game.top === origSpace.piece.color ? 1 : -1;
+      if (origSpace.row + diff > destSpace.row) {
+        return false;
+      }
       if (origSpace.row + diff !== destSpace.row) {
         if (origSpace.piece.hasMoved || destSpace.row - origSpace.row > diff * 2 || game.board[origSpace.row + diff][origSpace.col].piece) {
           return false;             

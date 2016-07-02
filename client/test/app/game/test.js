@@ -86,6 +86,13 @@ describe('game', () => {
           expect(state.board[1][0].piece).to.deep.equal(piece);
           expect(state.board[4][0].piece).to.be.undefined;
         });
+        it ('should not permit a pawn to move backwards, vertically', () => {
+          const piece = state.board[1][0].piece;
+          state.board[4][0].piece = piece;
+          attemptMove(state, 4, 0, 2, 0);
+          expect(state.board[4][0].piece).to.deep.equal(piece);
+          expect(state.board[2][0].piece).to.be.undefined;
+        });
         it('should not permit a pawn to move horizontally', () => {
           const piece = state.board[3][0].piece;
           attemptMove(state, 3, 0, 3, 1);
