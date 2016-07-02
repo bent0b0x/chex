@@ -13,6 +13,10 @@ const attemptMove = (state, fromRow, fromCol, toRow, toCol)  => {
 
 let state;
 
+before(() => {
+  state = initialState.game;
+});
+
 describe('game', () => {
   describe('reducer', () => {
     beforeEach(() => {
@@ -156,6 +160,27 @@ describe('game', () => {
           attemptMove(state, 7, 2, 6, 0);
           expect(state.board[7][2].piece).to.deep.equal(piece);
           expect(state.board[6][0].piece).to.be.undefined;
+        });
+        it('should not permit a move when a piece is in the way', () => {
+          const piece = state.board[7][2].piece;
+          state.board[3][6].piece = state.board[7][7].piece;
+          attemptMove(state, 7, 2, 2, 7);
+          expect(state.board[7][2].piece).to.deep.equal(piece);
+          expect(state.board[2][7].piece).to.be.undefined;
+        });
+        it('should permit a move when an opposing piece is at the destination', () => {
+          const piece = state.board[7][2].piece;
+          state.board[6][3].piece = state.board[0][0].piece;
+          attemptMove(state, 7, 2, 6, 3);
+          expect(state.board[6][3].piece).to.deep.equal(piece);
+          expect(state.board[7][2].piece).to.be.undefined;
+        });
+        it('should not permit a move when a teammate piece is at the destination', () => {
+          const piece = state.board[7][2].piece;
+          state.board[6][3].piece = state.board[7][7].piece;
+          attemptMove(state, 7, 2, 6, 3);
+          expect(state.board[7][2].piece).to.deep.equal(piece);
+          expect(state.board[6][3].piece).to.deep.equal(state.board[7][7].piece);
         });
       });
     });
