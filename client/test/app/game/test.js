@@ -88,6 +88,19 @@ describe('game', () => {
           expect(state.board[2][1].piece).to.deep.equal(piece);
           expect(state.board[1][0].piece).to.be.undefined;
         });
+        it('should permit a pawn to move two vertical spaces if it has not moved before', () => {
+          const piece = state.board[1][0].piece;
+          attemptMove(state, 1, 0, 3, 0);
+          expect(state.board[3][0].piece).to.deep.equal(piece);
+          expect(state.board[1][0].piece).to.be.undefined;
+        });
+        it('should not permit a pawn to move two vertical spaces if there is a piece in the way', () => {
+          const piece = state.board[1][0].piece;
+          state.board[2][0].piece = Object.assign({}, state.board[7][7].piece);
+          attemptMove(state, 1, 0, 3, 0);
+          expect(state.board[1][0].piece).to.deep.equal(piece);
+          expect(state.board[3][0].piece).to.be.undefined;
+        });
       });
     });
   });
