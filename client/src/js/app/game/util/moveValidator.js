@@ -47,6 +47,11 @@ export default (origSpace, destSpace, game) => {
       }
 
       break;
+    case Pieces.ROOK:
+      if (origSpace.row !== destSpace.row && origSpace.col !== destSpace.col) {
+        return false;
+      }
+      break;
     default: 
       return true;
   }

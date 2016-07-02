@@ -183,6 +183,36 @@ describe('game', () => {
           expect(state.board[6][3].piece).to.deep.equal(state.board[7][7].piece);
         });
       });
+      describe('rooks', () => {
+        beforeEach(() => {
+          state.board[1].forEach((space, index) => {
+            state.board[1][index].piece = undefined;
+          });
+          state.board[0].forEach((space, index) => {
+            if (index !== 0 && index !== state.board[0].length - 1) {
+              state.board[0][index].piece = undefined;
+            }
+          });
+        });
+        it('should permit a horizontal move', () => {
+          const piece = state.board[0][0].piece;
+          attemptMove(state, 0, 0, 0, 6);
+          expect(state.board[0][6].piece).to.deep.equal(piece);
+          expect(state.board[0][0].piece).to.be.undefined;
+        });
+        it('should permit a vertical move', () => {
+          const piece = state.board[0][0].piece;
+          attemptMove(state, 0, 0, 5, 0);
+          expect(state.board[5][0].piece).to.deep.equal(piece);
+          expect(state.board[0][0].piece).to.be.undefined;
+        });
+        it('should not permit a diagonal move', () => {
+          const piece = state.board[0][0].piece;
+          attemptMove(state, 0, 0, 1, 5);
+          expect(state.board[0][0].piece).to.deep.equal(piece);
+          expect(state.board[1][5].piece).to.be.undefined;
+        });
+      });
     });
   });
 });
