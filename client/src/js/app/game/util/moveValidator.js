@@ -7,6 +7,10 @@ export default (origSpace, destSpace, game) => {
         if (!destSpace.piece ||  destSpace.piece.color === origSpace.piece.color) {
           return false;          
         }
+      } else {
+        if (destSpace.piece) {
+          return false;
+        }
       }
       let diff = game.top === origSpace.piece.color ? 1 : -1;
       if (origSpace.row + diff !== destSpace.row) {
