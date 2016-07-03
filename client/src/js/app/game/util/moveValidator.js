@@ -1,5 +1,6 @@
 import * as Pieces from './Pieces';
 
+
 export default (origSpace, destSpace, game) => {
   switch (origSpace.piece.type) {
     case Pieces.PAWN:
@@ -29,8 +30,8 @@ export default (origSpace, destSpace, game) => {
       if (Math.abs(origSpace.col - destSpace.col) !== Math.abs(origSpace.row - destSpace.row)) {
         return false;
       }
-      const rowDir = destSpace.row - origSpace.row > 0 ? 1 : -1;
-      const colDir = destSpace.col - origSpace.col > 0 ? 1 : -1;
+      let rowDir = destSpace.row - origSpace.row > 0 ? 1 : -1;
+      let colDir = destSpace.col - origSpace.col > 0 ? 1 : -1;
 
       let row = origSpace.row + rowDir;
       let col = origSpace.col + colDir;
@@ -76,6 +77,46 @@ export default (origSpace, destSpace, game) => {
         return false;
       }
       break;
+    case Pieces.QUEEN:
+        if (origSpace.row === destSpace.row) {
+          const dir = origSpace.col < destSpace.col ? 1 : -1; 
+          for (let i = origSpace.col + dir; i !== destSpace.col; i += dir) {
+            if (game.board[origSpace.row][i].piece) {
+              return false;
+            }
+          }
+        } else if (origSpace.col === destSpace.col) {
+          const dir = origSpace.row < destSpace.row ? 1 : -1; 
+          for (let i = origSpace.row + dir; i !== destSpace.row; i += dir) {
+            if (game.board[i][origSpace.col].piece) {
+              return false;
+            }
+          }
+        } else if (Math.abs(origSpace.col - destSpace.col) !== Math.abs(origSpace.row - destSpace.row)) {
+          return false;
+        } else {
+          rowDir = destSpace.row - origSpace.row > 0 ? 1 : -1;
+          colDir = destSpace.col - origSpace.col > 0 ? 1 : -1;
+
+          row = origSpace.row + rowDir;
+          col = origSpace.col + colDir;
+
+          checkSpace = game.board[row][col];
+
+          while (Math.abs(checkSpace.row - destSpace.row) >= 1) {
+            if (checkSpace.piece) {
+              return false;
+            }
+
+            row += rowDir;
+            col += colDir;
+
+            checkSpace = game.board[row][col];
+
+          }
+        }
+        break;
+        
     default: 
       return true;
   }

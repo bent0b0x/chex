@@ -299,7 +299,67 @@ describe('game', () => {
           expect(state.board[2][2].piece).to.equal(piece);
           expect(state.board[0][1].piece).to.be.undefined;
         });
-      })
+      });
+      describe('queens', () => {
+        beforeEach(() => {
+          state.board[1].forEach((space, index) => {
+            state.board[1][index].piece = undefined;
+          });
+          state.board[6].forEach((space, index) => {
+            state.board[6][index].piece = undefined;
+          });
+          state.board[0].forEach((space, index) => {
+            if (index !== 3) {
+              state.board[0][index].piece = undefined;
+            }
+          });
+        });
+        it('should permit a horizontal move', () => {
+          const piece = state.board[0][3].piece;
+          attemptMove(state, 0, 3, 0, 0);
+          expect(state.board[0][0].piece).to.deep.equal(piece);
+          expect(state.board[0][3].piece).to.be.undefined;
+        });
+        it('should not permit a horizontal move if a piece is in the way', () => {
+          const piece = state.board[0][3].piece;
+          state.board[0][2].piece = state.board[7][7];
+          attemptMove(state, 0, 3, 0, 0);
+          expect(state.board[0][3].piece).to.equal(piece);
+          expect(state.board[0][0].piece).to.be.undefined;
+        });
+        it('should permit a vertical move', () => {
+          const piece = state.board[7][3].piece;
+          attemptMove(state, 7, 3, 5, 3);
+          expect(state.board[5][3].piece).to.deep.equal(piece);
+          expect(state.board[7][3].piece).to.be.undefined;
+        });
+        it('should not permit a vertical move if a piece is in the way', () => {
+          const piece = state.board[7][3].piece;
+          state.board[6][3].piece = state.board[7][7];
+          attemptMove(state, 7, 3, 5, 3);
+          expect(state.board[7][3].piece).to.equal(piece);
+          expect(state.board[5][3].piece).to.be.undefined;
+        });
+        it('should permit a diagonal move', () => {
+          const piece = state.board[7][3].piece;
+          attemptMove(state, 7, 3, 5, 1);
+          expect(state.board[5][1].piece).to.deep.equal(piece);
+          expect(state.board[7][3].piece).to.be.undefined;
+        });
+        it('should not permit a diagonal move if a piece is in the way', () => {
+          const piece = state.board[7][3].piece;
+          state.board[6][2].piece = state.board[7][7].piece;
+          attemptMove(state, 7, 3, 5, 1);
+          expect(state.board[7][3].piece).to.equal(piece);
+          expect(state.board[5][1].piece).to.be.undefined;
+        });
+        it('should not permit a diagonal move at the incorrect angle', () => {
+          const piece = state.board[7][3].piece;
+          attemptMove(state, 7, 3, 5, 0);
+          expect(state.board[7][3].piece).to.equal(piece);
+          expect(state.board[5][0].piece).to.be.undefined;
+        });
+      });
     });
   });
 });
