@@ -292,6 +292,13 @@ describe('game', () => {
           expect(state.board[0][1].piece).to.equal(piece);
           expect(state.board[2][2].piece).to.equal(destPiece);
         });
+        it('should permit an L-shaped move if an opposing piece is at the destination', () => {
+          const piece = state.board[0][1].piece;
+          state.board[2][2].piece = state.board[7][7].piece;
+          attemptMove(state, 0, 1, 2, 2);
+          expect(state.board[2][2].piece).to.equal(piece);
+          expect(state.board[0][1].piece).to.be.undefined;
+        });
       })
     });
   });
