@@ -253,6 +253,46 @@ describe('game', () => {
           expect(state.board[0][0].piece).to.be.undefined;
         });
       });
+      describe('knights', () => {
+        it('should permit a move in an L shape', () => {
+          const piece = state.board[0][1].piece;
+          attemptMove(state, 0, 1, 2, 2);
+          expect(state.board[2][2].piece).to.deep.equal(piece);
+          expect(state.board[0][1].piece).to.be.undefined;
+
+          attemptMove(state, 2, 2, 3, 0);
+          expect(state.board[3][0].piece).to.deep.equal(piece);
+          expect(state.board[2][2].piece).to.be.undefined;
+        });
+        it('should not permit a horizontal move', () => {
+          const piece = state.board[0][1].piece;
+          state.board[0][0].piece = undefined;
+          attemptMove(state, 0, 1, 0, 0);
+          expect(state.board[0][1].piece).to.equal(piece);
+          expect(state.board[0][0].piece).to.be.undefined;
+        });
+        it('should not permit a vertical move', () => {
+          const piece = state.board[0][1].piece;
+          state.board[1][1].piece = undefined;
+          attemptMove(state, 0, 1, 1, 1);
+          expect(state.board[0][1].piece).to.equal(piece);
+          expect(state.board[1][1].piece).to.be.undefined;
+        });
+        it('should not permit a diagnoal, non-L move', () => {
+          const piece = state.board[0][1].piece;
+          attemptMove(state, 0, 1, 4, 2);
+          expect(state.board[0][1].piece).to.equal(piece);
+          expect(state.board[4][2].piece).to.be.undefined;
+        });
+        it('should not permit an L-shaped move if a teammate is at the destination', () => {
+          const piece = state.board[0][1].piece;
+          state.board[2][2].piece = state.board[0][0].piece;
+          const destPiece = state.board[2][2].piece;
+          attemptMove(state, 0, 1, 2, 2);
+          expect(state.board[0][1].piece).to.equal(piece);
+          expect(state.board[2][2].piece).to.equal(destPiece);
+        });
+      })
     });
   });
 });

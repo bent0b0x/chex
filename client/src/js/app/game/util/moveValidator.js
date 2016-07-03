@@ -71,6 +71,11 @@ export default (origSpace, destSpace, game) => {
         }
       }
       break;
+    case Pieces.KNIGHT:
+      if (!(Math.abs(origSpace.row - destSpace.row) === 2 && Math.abs(origSpace.col - destSpace.col) === 1) && !(Math.abs(origSpace.row - destSpace.row) === 1 && Math.abs(origSpace.col - destSpace.col) === 2)) { 
+        return false;
+      }
+      break;
     default: 
       return true;
   }
