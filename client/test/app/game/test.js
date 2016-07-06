@@ -2,6 +2,7 @@ import initialState from '../../../src/js/app/initialState';
 import gameReducer from '../../../src/js/app/game/gameReducer';
 import * as SpaceActionCreators from '../../../src/js/app/game/board/space/SpaceActionCreators';
 import generateBoard from '../../../src/js/util/generateBoard';
+import * as colors from '../../../src/js/app/game/util/PieceColors';
 import chai from 'chai';
 
 const expect = chai.expect;
@@ -66,6 +67,35 @@ describe('game', () => {
       expect(state.board[0][0].piece).to.deep.equal(teammatePiece);
     });
     describe('move validators', () => {
+      beforeEach(() => {
+        state.turn = colors.WHITE;
+      });
+      describe('turns', () => {
+        it('should permit a move when it is your turn', () => {
+          let piece = state.board[1][0].piece;
+          attemptMove(state, 1, 0, 2, 0);
+          expect(state.board[2][0].piece).to.deep.equal(piece);
+          expect(state.board[1][0].piece).to.be.undefined;
+
+          state.turn = colors.BLACK;
+          piece = state.board[6][0].piece;
+          attemptMove(state, 6, 0, 5, 0);
+          expect(state.board[5][0].piece).to.deep.equal(piece);
+          expect(state.board[6][0].piece).to.be.undefined;
+        });
+        it('should not permit a move when it is not your turn', () => {
+          let piece = state.board[6][0].piece;
+          attemptMove(state, 6, 0, 5, 0);
+          expect(state.board[6][0].piece).to.equal(piece);
+          expect(state.board[5][0].piece).to.be.undefined;
+
+          state.turn = colors.BLACK;
+          piece = state.board[1][0].piece;
+          attemptMove(state, 1, 0, 2, 0);
+          expect(state.board[1][0].piece).to.equal(piece);
+          expect(state.board[2][0].piece).to.be.undefined;
+        });
+      });
       describe('pawns', () => {
         it('should permit a pawn to move one space, vertically', () => {
           const piece = state.board[1][0].piece;
@@ -112,6 +142,7 @@ describe('game', () => {
           expect(state.board[3][0].piece).to.deep.equal(piece);
           expect(state.board[1][0].piece).to.be.undefined;
           piece = state.board[6][0].piece;
+          state.turn = colors.BLACK;
           attemptMove(state, 6, 0, 4, 0);
           expect(state.board[4][0].piece).to.deep.equal(piece);
           expect(state.board[6][0].piece).to.be.undefined;
@@ -149,12 +180,14 @@ describe('game', () => {
           });
         });
         it('should not permit a vertical move', () => {
+          state.turn = colors.BLACK;
           const piece = state.board[7][2].piece;
           attemptMove(state, 7, 2, 4, 2);
           expect(state.board[7][2].piece).to.equal(piece);
           expect(state.board[4][2].piece).to.be.undefined;
         });
         it('should not be permit a horizontal move', () => {
+          state.turn = colors.BLACK;
           state.board[4][0].piece = state.board[7][2].piece;
           const piece = state.board[4][0].piece;
           attemptMove(state, 4, 0, 4, 6);
@@ -162,18 +195,21 @@ describe('game', () => {
           expect(state.board[4][6].piece).to.be.undefined;
         });
         it('should permit a diagnoal move', () => {
+          state.turn = colors.BLACK;
           const piece = state.board[7][2].piece;
           attemptMove(state, 7, 2, 6, 1);
           expect(state.board[6][1].piece).to.deep.equal(piece);
           expect(state.board[7][2].piece).to.be.undefined;
         });
         it('should not permit a diagnoal move at the wrong angle', () => {
+          state.turn = colors.BLACK;
           const piece = state.board[7][2].piece;
           attemptMove(state, 7, 2, 6, 0);
           expect(state.board[7][2].piece).to.equal(piece);
           expect(state.board[6][0].piece).to.be.undefined;
         });
         it('should not permit a move when a piece is in the way', () => {
+          state.turn = colors.BLACK;
           const piece = state.board[7][2].piece;
           state.board[3][6].piece = state.board[7][7].piece;
           attemptMove(state, 7, 2, 2, 7);
@@ -181,6 +217,7 @@ describe('game', () => {
           expect(state.board[2][7].piece).to.be.undefined;
         });
         it('should permit a move when an opposing piece is at the destination', () => {
+          state.turn = colors.BLACK;
           const piece = state.board[7][2].piece;
           state.board[6][3].piece = state.board[0][0].piece;
           attemptMove(state, 7, 2, 6, 3);
@@ -188,6 +225,7 @@ describe('game', () => {
           expect(state.board[7][2].piece).to.be.undefined;
         });
         it('should not permit a move when a teammate piece is at the destination', () => {
+          state.turn = colors.BLACK;
           const piece = state.board[7][2].piece;
           state.board[6][3].piece = state.board[7][7].piece;
           attemptMove(state, 7, 2, 6, 3);
@@ -328,12 +366,14 @@ describe('game', () => {
           expect(state.board[0][0].piece).to.be.undefined;
         });
         it('should permit a vertical move', () => {
+          state.turn = colors.BLACK;
           const piece = state.board[7][3].piece;
           attemptMove(state, 7, 3, 5, 3);
           expect(state.board[5][3].piece).to.deep.equal(piece);
           expect(state.board[7][3].piece).to.be.undefined;
         });
         it('should not permit a vertical move if a piece is in the way', () => {
+          state.turn = colors.BLACK;
           const piece = state.board[7][3].piece;
           state.board[6][3].piece = state.board[7][7];
           attemptMove(state, 7, 3, 5, 3);
@@ -341,12 +381,14 @@ describe('game', () => {
           expect(state.board[5][3].piece).to.be.undefined;
         });
         it('should permit a diagonal move', () => {
+          state.turn = colors.BLACK;
           const piece = state.board[7][3].piece;
           attemptMove(state, 7, 3, 5, 1);
           expect(state.board[5][1].piece).to.deep.equal(piece);
           expect(state.board[7][3].piece).to.be.undefined;
         });
         it('should not permit a diagonal move if a piece is in the way', () => {
+          state.turn = colors.BLACK;
           const piece = state.board[7][3].piece;
           state.board[6][2].piece = state.board[7][7].piece;
           attemptMove(state, 7, 3, 5, 1);
@@ -354,6 +396,7 @@ describe('game', () => {
           expect(state.board[5][1].piece).to.be.undefined;
         });
         it('should not permit a diagonal move at the incorrect angle', () => {
+          state.turn = colors.BLACK;
           const piece = state.board[7][3].piece;
           attemptMove(state, 7, 3, 5, 0);
           expect(state.board[7][3].piece).to.equal(piece);

@@ -16,7 +16,7 @@ const handleSelect = (state, {row, col}) => {
       state.board[row][col] = Object.assign({}, state.board[row][col], {active: false});
       state.active_space = false;
     } else {
-      if (!state.board[row][col].piece || state.board[row][col].piece.color !== state.active_space.piece.color) {
+      if ((!state.board[row][col].piece || state.board[row][col].piece.color !== state.active_space.piece.color) && state.turn === state.active_space.piece.color) {
         if (validator(state.active_space, state.board[row][col], state)) {
           state.board[row][col] = Object.assign({}, state.board[row][col]);
           state.board[row][col].piece = state.active_space.piece;
