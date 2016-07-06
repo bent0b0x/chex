@@ -116,7 +116,21 @@ export default (origSpace, destSpace, game) => {
           }
         }
         break;
-        
+      case Pieces.KING:
+        if (destSpace.row === origSpace.row) {
+          if (Math.abs(destSpace.col - origSpace.col) !== 1) {
+            return false;
+          }
+        }
+        if (destSpace.col === origSpace.col) {
+          if (Math.abs(destSpace.row - origSpace.row) !== 1) {
+            return false;
+          }
+        }
+        if (Math.abs(destSpace.row - origSpace.row) * Math.abs(destSpace.col - origSpace.col) > 1) {
+          return false;
+        }
+        break;
     default: 
       return true;
   }
