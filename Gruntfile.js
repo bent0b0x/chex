@@ -69,6 +69,10 @@ module.exports = function(grunt) {
       img: {
         files: ['client/src/img/**/*'],
         tasks: ['build-img']
+      },
+      test: {
+        files: ['client/src/**/*', 'client/test/**/*'],
+        tasks: ['test']
       }
     }
   });
