@@ -3,9 +3,9 @@ import { combineReducers } from 'redux';
 import clock from './clock/clockReducer';
 import validator from './util/moveValidator';
 import * as SpaceActions from './board/space/SpaceActions';
+import * as colors from './util/PieceColors';
 
-
-const handleSelect = (state, {row, col}) => {
+const handleSelect = (state, { row, col }) => {
   if (!state.active_space) {
     if (state.board[row][col].piece) {
       state.active_space = state.board[row][col];
@@ -13,7 +13,7 @@ const handleSelect = (state, {row, col}) => {
     }
   } else {
     if (state.active_space.row === row && state.active_space.col === col) {
-      state.board[row][col] = Object.assign({}, state.board[row][col], {active: false});
+      state.board[row][col] = Object.assign({}, state.board[row][col], { active: false });
       state.active_space = false;
     } else {
       if ((!state.board[row][col].piece || state.board[row][col].piece.color !== state.active_space.piece.color) && state.turn === state.active_space.piece.color) {
@@ -21,15 +21,15 @@ const handleSelect = (state, {row, col}) => {
           state.board[row][col] = Object.assign({}, state.board[row][col]);
           state.board[row][col].piece = state.active_space.piece;
           state.board[row][col].piece.hasMoved = true;
-          state.board[state.active_space.row][state.active_space.col] = Object.assign({}, state.active_space, {piece: undefined, active: false});
+          state.board[state.active_space.row][state.active_space.col] = Object.assign({}, state.active_space, { piece: undefined, active: false });
           state.active_space = false;
+          state.turn = state.turn === colors.WHITE ? colors.BLACK : colors.WHITE;
         }
       }
     }
   }
   return state;
 };
-
 
 export default (state = initialState.game, action) => {
   let newState = Object.assign({}, state);

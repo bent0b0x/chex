@@ -7,12 +7,12 @@ import chai from 'chai';
 
 const expect = chai.expect;
 
-const attemptMove = (state, fromRow, fromCol, toRow, toCol)  => {
-  state = gameReducer(state, SpaceActionCreators.select(fromRow, fromCol));
-  state = gameReducer(state, SpaceActionCreators.select(toRow, toCol));
-};  
-
 let state;
+
+const attemptMove = (currState, fromRow, fromCol, toRow, toCol)  => {
+  state = gameReducer(currState, SpaceActionCreators.select(fromRow, fromCol));
+  state = gameReducer(state, SpaceActionCreators.select(toRow, toCol));
+};
 
 before(() => {
   state = initialState.game;
@@ -55,6 +55,7 @@ describe('game', () => {
       expect(state.board[1][0].piece).to.be.undefined;
     });
     it('should mark a piece as having moved', () => {
+      state.turn = colors.WHITE;
       const piece = state.board[1][0].piece;
       attemptMove(state, 1, 0, 2, 0);
       expect(piece.hasMoved).to.be.true;
@@ -94,6 +95,27 @@ describe('game', () => {
           attemptMove(state, 1, 0, 2, 0);
           expect(state.board[1][0].piece).to.equal(piece);
           expect(state.board[2][0].piece).to.be.undefined;
+        });
+        it('should switch whose turn it is when a move is completed', () => {
+          let piece = state.board[1][0].piece;
+          attemptMove(state, 1, 0, 2, 0);
+          expect(state.turn).to.equal(colors.BLACK);
+
+          state.turn = colors.BLACK;
+          piece = state.board[6][0].piece;
+          attemptMove(state, 6, 0, 5, 0);
+          expect(state.turn).to.equal(colors.WHITE);
+        });
+        it('should not switch whose turn it is when a move fails', () => {
+          state.turn = colors.WHITE;
+          let piece = state.board[1][0].piece;
+          attemptMove(state, 1, 0, 0, 0);
+          expect(state.turn).to.equal(colors.WHITE);
+
+          state.turn = colors.BLACK;
+          piece = state.board[6][0].piece;
+          attemptMove(state, 6, 0, 7, 0);
+          expect(state.turn).to.equal(colors.BLACK);
         });
       });
       describe('pawns', () => {
@@ -298,6 +320,7 @@ describe('game', () => {
           expect(state.board[2][2].piece).to.deep.equal(piece);
           expect(state.board[0][1].piece).to.be.undefined;
 
+          state.turn = colors.WHITE;
           attemptMove(state, 2, 2, 3, 0);
           expect(state.board[3][0].piece).to.deep.equal(piece);
           expect(state.board[2][2].piece).to.be.undefined;
