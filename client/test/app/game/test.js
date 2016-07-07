@@ -48,7 +48,14 @@ describe('game', () => {
       expect(state.active_space).to.be.false;
       expect(state.board[3][3].active).to.be.false;
     });
+    it('should not activate a space with it is not the piece\'s turn', () => {
+      state.turn = colors.BLACK;
+      state = gameReducer(state, SpaceActionCreators.select(0, 0));
+      expect(state.active_space).to.be.false;
+      expect(state.board[3][3].active).to.be.false;
+    });
     it('should move a piece to a new position', () => {
+      state.turn = colors.WHITE;
       const piece = state.board[1][0].piece;
       attemptMove(state, 1, 0, 2, 0);
       expect(state.board[2][0].piece).to.deep.equal(piece);

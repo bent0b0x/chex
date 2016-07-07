@@ -7,7 +7,7 @@ import * as colors from './util/PieceColors';
 
 const handleSelect = (state, { row, col }) => {
   if (!state.active_space) {
-    if (state.board[row][col].piece) {
+    if (state.board[row][col].piece && state.board[row][col].piece.color === state.turn) {
       state.active_space = state.board[row][col];
       state.active_space.active = true;
     }
