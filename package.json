@@ -12,7 +12,7 @@
   "license": "MIT",
   "dependencies": {
     "express": "^4.14.0",
-    "react": "^15.1.0",
+    "react": "^15.2.0",
     "react-dom": "^15.1.0",
     "react-redux": "^4.4.5",
     "redux": "^3.5.2",
