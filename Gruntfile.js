@@ -35,7 +35,11 @@ module.exports = function(grunt) {
     },
     concat: {
       sass: {
-        src: ['client/src/styles/**/*.scss', '!client/src/styles/styles.scss'],
+        src: [
+          'client/lib/Materialize/bin/materialize.css',
+          'client/src/styles/**/*.scss',
+          '!client/src/styles/styles.scss'
+        ],
         dest: 'client/src/styles/styles.scss'
       }
     },
@@ -55,7 +59,8 @@ module.exports = function(grunt) {
       }
     },
     shell: {
-      'test-client': 'mocha --compilers js:babel-register --recursive client/test'
+      'test-client': 'mocha --compilers js:babel-register --recursive client/test',
+      'bower-install': 'bower install'
     },
     watch: {
       transpile: {
@@ -89,7 +94,7 @@ module.exports = function(grunt) {
 
   grunt.registerTask('build-all', ['clean:dist', 'build-js', 'build-img', 'build-styles']);
 
-  grunt.registerTask('dev', ['build-all', 'watch']);
+  grunt.registerTask('dev', ['shell:bower-install', 'build-all', 'watch']);
 
   grunt.registerTask('default', ['dev']);
 

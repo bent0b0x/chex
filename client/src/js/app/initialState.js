@@ -10,5 +10,8 @@ export default {
     turn: colors.WHITE,
     top: colors.WHITE,
     clock: genClock()
+  },
+  config: {
+    app_name: 'Chex'
   }
 }

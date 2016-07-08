@@ -2,6 +2,8 @@ node_modules/
 
 client/dist
 
+client/lib
+
 client/src/styles/styles.scss
 
 .sass-cache/

@@ -6,7 +6,7 @@ export default ({ board }) => (
     <div className="board">
       {
         board.map((row, i) => (
-          <div className="row" key={i}>
+          <div className="board-row" key={i}>
             {
               row.map((space, j) => {
                 const color = i % 2 !== j % 2 ? colors.BLACK : colors.WHITE;

@@ -1,0 +1,22 @@
+{
+  "name": "chex",
+  "description": "Redux starter app, a chess game",
+  "main": "index.js",
+  "authors": [
+    "bent0b0x"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/bent0b0x/chex",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "client/lib",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "Materialize": "materialize#^0.97.6"
+  }
+}
