@@ -2,6 +2,10 @@ import chai from 'chai';
 import * as creators from '../../../../../src/js/app/game/board/space/SpaceActionCreators';
 import * as actions from '../../../../../src/js/app/game/board/space/SpaceActions';
 import reducer from '../../../../../src/js/app/game/board/space/spaceReducer';
+import Space from '../../../../../src/js/app/game/board/space/Space';
+import * as colors from '../../../../../src/js/app/game/util/PieceColors';
+import React from 'react';
+import TestUtils from 'react-addons-test-utils';
 
 const expect = chai.expect;
 
@@ -34,6 +38,24 @@ describe('space', () => {
       expect(reducer(mockSpace, {
         type: actions.SELECT
       }).selected).to.be.false;
+    });
+  });
+
+  describe('components', () => {
+    let props;
+    let output;
+    let renderer;
+    beforeEach(() => {
+      props = {
+        color: colors.WHITE
+      };
+
+      renderer = TestUtils.createRenderer();
+      renderer.render(<Space {...props} />);
+      output = renderer.getRenderOutput();
+    });
+    it('should render correctly', () => {
+      expect(output.props.className.indexOf(colors.WHITE)).to.not.equal(-1);
     });
   });
 });

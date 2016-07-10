@@ -160,7 +160,7 @@
     ],
     "max-nested-callbacks": [
       2,
-      4
+      10
     ],
     "new-cap": 2,
     "new-parens": 2,
