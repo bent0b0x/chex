@@ -48,6 +48,6 @@ export const preMove = (game, orig, dest) => {
   validate(clonedGame, (color, enemySpace) => {
     checks.push({ color, enemySpace });
   });
-  return !checks.length;
+  return checks;
 };
 
