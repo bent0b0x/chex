@@ -535,25 +535,25 @@ describe('game', () => {
         });
       });
       describe('check validator', () => {
-        describe('pawns', () => {
-          it('should detect a check when a pawn is one space away, diagonally', () => {
-            state.board[1][3].piece = state.board[6][0].piece;
-            state.board[6][0].piece = undefined;
-            state = checkValidator(state);
-            expect(state.check).to.equal(colors.WHITE);
-          });
-          it('should not detect a check when a pawn is one space away, vertically', () => {
-            state.board[1][4].piece = state.board[6][0].piece;
-            state.board[6][0].piece = undefined;
-            state = checkValidator(state);
-            expect(state.check).to.be.false;
-          });
-          it('should not detect a check when a pawn is one space away, horizontally', () => {
-            state.board[0][3].piece = state.board[6][0].piece;
-            state.board[6][0].piece = undefined;
-            state = checkValidator(state);
-            expect(state.check).to.be.false;
-          });
+        it('should detect a check when threatened by one piece', () => {
+          state.board[1][3].piece = state.board[6][0].piece;
+          state.board[6][0].piece = undefined;
+          state = checkValidator(state);
+          expect(state.check).to.equal(colors.WHITE);
+        });
+        it('should not detect a check when threatened by no piece', () => {
+          state.board[1][4].piece = state.board[6][0].piece;
+          state.board[6][0].piece = undefined;
+          state = checkValidator(state);
+          expect(state.check).to.be.false;
+        });
+        it('should detect a check when threatened by multiple pieces', () => {
+          state.board[0][3].piece = state.board[6][0].piece;
+          state.board[2][3].piece = state.board[7][1].piece;
+          state.board[6][0].piece = undefined;
+          state.board[7][1].piece = undefined
+          state = checkValidator(state);
+          expect(state.check).to.equal(colors.WHITE);
         });
       });
       xit('should set check when a king is in check', () => {
