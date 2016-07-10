@@ -3,7 +3,7 @@ import gameReducer from '../../../src/js/app/game/gameReducer';
 import * as SpaceActionCreators from '../../../src/js/app/game/board/space/SpaceActionCreators';
 import generateBoard from '../../../src/js/util/generateBoard';
 import * as colors from '../../../src/js/app/game/util/PieceColors';
-import checkValidator from '../../../src/js/app/game/util/checkValidator';
+import * as checkValidator from '../../../src/js/app/game/util/checkValidator';
 import Game from '../../../src/js/app/game/Game';
 import Board from '../../../src/js/app/game/board/Board';
 import Clock from '../../../src/js/app/game/clock/Clock';
@@ -534,17 +534,29 @@ describe('game', () => {
           space.piece = undefined;
         });
       });
+      describe('move prevention', () => {
+        it('should prevent a piece from moving if it would put its king in check', () => {
+          state.board[1][4].piece = state.board[0][0].piece;
+          const piece = state.board[1][4].piece;
+          state.board[0][0].piece = undefined;
+          state.board[2][4].piece = state.board[7][7].piece;
+          state.turn = colors.WHITE;
+          attemptMove(state, 1, 4, 1, 3);
+          expect(state.board[1][4].piece).to.equal(piece);
+          expect(state.board[1][3].piece).to.be.undefined;
+        });
+      });
       describe('check validator', () => {
         it('should detect a check when threatened by one piece', () => {
           state.board[1][3].piece = state.board[6][0].piece;
           state.board[6][0].piece = undefined;
-          state = checkValidator(state);
+          state = checkValidator.postMove(state);
           expect(state.check).to.equal(colors.WHITE);
         });
         it('should not detect a check when threatened by no piece', () => {
           state.board[1][4].piece = state.board[6][0].piece;
           state.board[6][0].piece = undefined;
-          state = checkValidator(state);
+          state = checkValidator.postMove(state);
           expect(state.check).to.be.false;
         });
         it('should detect a check when threatened by multiple pieces', () => {
@@ -552,7 +564,7 @@ describe('game', () => {
           state.board[2][3].piece = state.board[7][1].piece;
           state.board[6][0].piece = undefined;
           state.board[7][1].piece = undefined
-          state = checkValidator(state);
+          state = checkValidator.postMove(state);
           expect(state.check).to.equal(colors.WHITE);
         });
       });
