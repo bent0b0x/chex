@@ -555,6 +555,15 @@ describe('game', () => {
           expect(state.board[1][4].piece).to.deep.equal(piece);
           expect(state.board[2][4].piece).to.be.undefined;
         });
+        it('should prevent a king from moving if it would put itself in check', () => {
+          state.board[1][4].piece = state.board[7][3].piece;
+          state.board[0][3].piece = undefined;
+          state.turn = colors.WHITE;
+          const king = state.board[0][4].piece;
+          attemptMove(state, 0, 4, 0, 3);
+          expect(state.board[0][4].piece).to.equal(king);
+          expect(state.board[0][3].piece).to.be.undefined;
+        });
       });
       describe('check validator', () => {
         it('should detect a check when threatened by one piece', () => {

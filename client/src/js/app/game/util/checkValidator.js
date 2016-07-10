@@ -1,4 +1,5 @@
 import validator from './moveValidator';
+import * as Pieces from './Pieces';
 
 const validate = (game, callback) => {
   const board = game.board;
@@ -35,12 +36,19 @@ export const postMove = (game) => {
 
 export const preMove = (game, orig, dest) => {
   const clonedGame = Object.assign({}, game);
-  clonedGame.board = game.board.map((row) => {
-    return row.map((space) => {
+  const kings = {};
+  clonedGame.board = game.board.map((row, rowI) => {
+    return row.map((space, colI) => {
+      if (space.piece && space.piece.type === Pieces.KING) {
+        kings[space.piece.color] = { row: rowI, col: colI };
+      }
       return Object.assign({}, space);
     });
   });
-  clonedGame.board.kings = Object.assign({}, game.board.kings);
+  clonedGame.board.kings = kings;
+  if (orig.piece.type === Pieces.KING) {
+    clonedGame.board.kings[orig.piece.color] = { row: dest.row, col: dest.col };
+  }
   clonedGame.board[dest.row][dest.col].piece = clonedGame.board[orig.row][orig.col].piece;
   clonedGame.board[orig.row][orig.col].piece = undefined;
   const checks = [];
