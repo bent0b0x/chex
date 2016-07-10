@@ -8,6 +8,7 @@ export default {
     active_space: false,
     board: genBoard(),
     turn: colors.WHITE,
+    check: false,
     top: colors.WHITE,
     clock: genClock()
   },

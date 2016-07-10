@@ -4,6 +4,7 @@ import * as colors from '../app/game/util/PieceColors';
 
 export default () => {
   const board = [];
+  board.kings = {};
 
   for (let i = 0; i < 8; i++) {
     board[i] = [];
@@ -48,6 +49,7 @@ export default () => {
         //Kings
         if (n === 4) {
           board[k][n].piece = piece(color, pieceTypes.KING);
+          board.kings[color] = [k, n];
         }
       }
     }

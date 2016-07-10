@@ -1,12 +1,14 @@
 import * as Pieces from './Pieces';
 
-
-export default (origSpace, destSpace, game) => {
+export default (origSpace, destSpace, game, checkCallback) => {
   switch (origSpace.piece.type) {
     case Pieces.PAWN:
+      if (origSpace.row === destSpace.row) {
+        return false;
+      }
       if (origSpace.col !== destSpace.col) {
         if (!destSpace.piece ||  destSpace.piece.color === origSpace.piece.color) {
-          return false;          
+          return false;       
         }
       } else {
         if (destSpace.piece) {
@@ -134,5 +136,8 @@ export default (origSpace, destSpace, game) => {
     default: 
       return true;
   }
+  if (destSpace.piece && destSpace.piece.color !== origSpace.piece.color && destSpace.piece.type === Pieces.KING) {
+    checkCallback(destSpace.piece.color, origSpace);
+  }
   return true;
-}
+};

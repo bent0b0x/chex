@@ -3,6 +3,7 @@ import gameReducer from '../../../src/js/app/game/gameReducer';
 import * as SpaceActionCreators from '../../../src/js/app/game/board/space/SpaceActionCreators';
 import generateBoard from '../../../src/js/util/generateBoard';
 import * as colors from '../../../src/js/app/game/util/PieceColors';
+import checkValidator from '../../../src/js/app/game/util/checkValidator';
 import Game from '../../../src/js/app/game/Game';
 import Board from '../../../src/js/app/game/board/Board';
 import Clock from '../../../src/js/app/game/clock/Clock';
@@ -508,6 +509,47 @@ describe('game', () => {
           expect(state.board[0][4].piece).to.equal(piece);
           expect(state.board[0][5].piece).to.equal(destSpace);
         });
+      });
+    });
+    describe('check', () => {
+      beforeEach(() => {
+        state.board[1].forEach((space) => {
+          space.piece = undefined;
+        });
+      });
+      describe('check validator', () => {
+        describe('pawns', () => {
+          it('should detect a check when a pawn is one space away, diagonally', () => {
+            state.board[1][3].piece = state.board[6][0].piece;
+            state.board[6][0].piece = undefined;
+            state = checkValidator(state);
+            expect(state.check).to.equal(colors.WHITE);
+          });
+          it('should not detect a check when a pawn is one space away, vertically', () => {
+            state.board[1][4].piece = state.board[6][0].piece;
+            state.board[6][0].piece = undefined;
+            state = checkValidator(state);
+            expect(state.check).to.be.false;
+          });
+          it('should not detect a check when a pawn is one space away, horizontally', () => {
+            state.board[0][3].piece = state.board[6][0].piece;
+            state.board[6][0].piece = undefined;
+            state = checkValidator(state);
+            expect(state.check).to.be.false;
+          });
+        });
+      });
+      xit('should set check when a king is in check', () => {
+        state.board[2][3].piece = state.board[6][0].piece;
+        attemptMove(state, 2, 3, 1, 3);
+        expect(state.check).to.equal(colors.WHITE);
+      });
+      xit('should unset check when a king is no longer in check', () => {
+        state.check = colors.WHITE;
+        state.board[2][3].piece = state.board[6][0].piece;
+        attemptMove(state, 2, 3, 1, 3);
+        attemptMove(state, 0, 2, 1, 3);
+        expect(state.check).to.be.false;
       });
     });
   });

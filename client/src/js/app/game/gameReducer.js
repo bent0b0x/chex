@@ -1,7 +1,9 @@
 import initialState from '../../app/initialState';
 import { combineReducers } from 'redux';
 import clock from './clock/clockReducer';
+import * as Pieces from './util/Pieces';
 import validator from './util/moveValidator';
+import { checkValidator } from './util/checkValidator';
 import * as SpaceActions from './board/space/SpaceActions';
 import * as colors from './util/PieceColors';
 
@@ -21,6 +23,9 @@ const handleSelect = (state, { row, col }) => {
           state.board[row][col] = Object.assign({}, state.board[row][col]);
           state.board[row][col].piece = state.active_space.piece;
           state.board[row][col].piece.hasMoved = true;
+          if (state.board[row][col].piece.type === Pieces.KING) {
+            state.board.kings[state.board[row][col].piece.color] = [row, col];
+          }
           state.board[state.active_space.row][state.active_space.col] = Object.assign({}, state.active_space, { piece: undefined, active: false });
           state.active_space = false;
           state.turn = state.turn === colors.WHITE ? colors.BLACK : colors.WHITE;
