@@ -3,7 +3,12 @@ import gameReducer from '../../../src/js/app/game/gameReducer';
 import * as SpaceActionCreators from '../../../src/js/app/game/board/space/SpaceActionCreators';
 import generateBoard from '../../../src/js/util/generateBoard';
 import * as colors from '../../../src/js/app/game/util/PieceColors';
+import Game from '../../../src/js/app/game/Game';
+import Board from '../../../src/js/app/game/board/Board';
+import Clock from '../../../src/js/app/game/clock/Clock';
 import chai from 'chai';
+import React from 'react';
+import TestUtils from 'react-addons-test-utils';
 
 const expect = chai.expect;
 
@@ -504,6 +509,34 @@ describe('game', () => {
           expect(state.board[0][5].piece).to.equal(destSpace);
         });
       });
+    });
+  });
+  describe('components', () => {
+    let props;
+    let output;
+    let renderer;
+    beforeEach(() => {
+      props = {
+        board: initialState.game.board
+      };
+
+      renderer = TestUtils.createRenderer();
+      renderer.render(<Game {...props} />);
+      output = renderer.getRenderOutput();
+    });
+    it('should render correctly', () => {
+      expect(output.type).to.equal('div');
+      expect(output.props.className).to.equal('game');
+
+      let [turn, board, clock] = output.props.children;
+
+      expect(turn.type).to.equal('div');
+      expect(turn.props.className).to.equal('turn');
+
+      expect(board.type).to.equal(Board);
+      expect(board.props.board).to.equal(props.board);
+
+      expect(clock.type).to.equal(Clock);
     });
   });
 });
