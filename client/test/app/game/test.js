@@ -67,6 +67,23 @@ describe('game', () => {
       expect(state.board[2][0].piece).to.deep.equal(piece);
       expect(state.board[1][0].piece).to.be.undefined;
     });
+    it('should update a board\'s kings index when kings move', () => {
+      state.turn = colors.WHITE;
+      const king = state.board[0][4].piece;
+      state.board[1][4].piece = undefined;
+      attemptMove(state, 0, 4, 1, 4);
+      expect(state.board.kings[colors.WHITE]).to.deep.equal({ row: 1, col: 4 });
+
+      state.turn = colors.WHITE;
+      attemptMove(state, 1, 4, 2, 5);
+      expect(state.board.kings[colors.WHITE]).to.deep.equal({ row: 2, col: 5 });
+
+      state.turn = colors.BLACK;
+      state.board[6][4].piece = undefined;
+      attemptMove(state, 7, 4, 6, 4);
+      expect(state.board.kings[colors.BLACK]).to.deep.equal({ row: 6, col: 4 });
+
+    });
     it('should mark a piece as having moved', () => {
       state.turn = colors.WHITE;
       const piece = state.board[1][0].piece;

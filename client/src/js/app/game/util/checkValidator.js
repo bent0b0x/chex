@@ -11,7 +11,7 @@ export default (game) => {
         return;
       }
       Object.keys(game.board.kings).forEach((kingColor) => {
-        validator(board[origRow][origCol], board[game.board.kings[kingColor][0]][game.board.kings[kingColor][1]], game, (color, enemySpace) => {
+        validator(board[origRow][origCol], board[game.board.kings[kingColor].row][game.board.kings[kingColor].col], game, (color, enemySpace) => {
           checks.push({ color, enemySpace });
         });
       });

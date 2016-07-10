@@ -24,7 +24,7 @@ const handleSelect = (state, { row, col }) => {
           state.board[row][col].piece = state.active_space.piece;
           state.board[row][col].piece.hasMoved = true;
           if (state.board[row][col].piece.type === Pieces.KING) {
-            state.board.kings[state.board[row][col].piece.color] = [row, col];
+            state.board.kings[state.board[row][col].piece.color] = { row, col };
           }
           state.board[state.active_space.row][state.active_space.col] = Object.assign({}, state.active_space, { piece: undefined, active: false });
           state.active_space = false;

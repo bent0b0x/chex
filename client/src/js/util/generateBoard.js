@@ -49,7 +49,7 @@ export default () => {
         //Kings
         if (n === 4) {
           board[k][n].piece = piece(color, pieceTypes.KING);
-          board.kings[color] = [k, n];
+          board.kings[color] = { row: k, col: n };
         }
       }
     }
