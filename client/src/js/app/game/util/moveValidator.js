@@ -1,6 +1,7 @@
 import * as Pieces from './Pieces';
 
 export default (origSpace, destSpace, game, checkCallback) => {
+  let result = true;
   switch (origSpace.piece.type) {
     case Pieces.PAWN:
       if (origSpace.row === destSpace.row) {
@@ -121,7 +122,31 @@ export default (origSpace, destSpace, game, checkCallback) => {
       case Pieces.KING:
         if (destSpace.row === origSpace.row) {
           if (Math.abs(destSpace.col - origSpace.col) !== 1) {
-            return false;
+            if (Math.abs(destSpace.col - origSpace.col) > 3) {
+              return false;
+            }
+            if (origSpace.piece.hasMoved) {
+              return false;
+            }
+            let rookSpace;
+            let destRookCol;
+            if (destSpace.col > origSpace.col) {
+              rookSpace = game.board[origSpace.row][7];
+              destRookCol = destSpace.col - 1;
+            } else {
+              rookSpace = game.board[origSpace.row][0];
+              destRookCol = destSpace.col + 1;
+            }
+            if (!rookSpace.piece || rookSpace.piece.hasMoved) {
+              return false;
+            }
+            result = {
+              rookSpace,
+              destSpace: {
+                row: origSpace.row,
+                col: destRookCol
+              }
+            };
           }
         }
         if (destSpace.col === origSpace.col) {
@@ -134,10 +159,10 @@ export default (origSpace, destSpace, game, checkCallback) => {
         }
         break;
     default: 
-      return true;
+      return result;
   }
   if (destSpace.piece && destSpace.piece.color !== origSpace.piece.color && destSpace.piece.type === Pieces.KING) {
     checkCallback(destSpace.piece.color, origSpace);
   }
-  return true;
+  return result;
 };

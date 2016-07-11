@@ -19,7 +19,8 @@ const handleSelect = (state, { row, col }) => {
       state.active_space = false;
     } else {
       if ((!state.board[row][col].piece || state.board[row][col].piece.color !== state.active_space.piece.color) && state.turn === state.active_space.piece.color) {
-        if (validator(state.active_space, state.board[row][col], state)) {
+        const validatorResult = validator(state.active_space, state.board[row][col], state);
+        if (validatorResult) {
           const checks = checkValidator.preMove(state, state.active_space, state.board[row][col]);
           if (!checks.find((check) => check.color === state.active_space.piece.color)) {
             state.board[row][col] = Object.assign({}, state.board[row][col]);
@@ -31,6 +32,11 @@ const handleSelect = (state, { row, col }) => {
             state.board[state.active_space.row][state.active_space.col] = Object.assign({}, state.active_space, { piece: undefined, active: false });
             state.active_space = false;
             state.turn = state.turn === colors.WHITE ? colors.BLACK : colors.WHITE;
+            if (typeof validatorResult === 'object') {
+              state.board[validatorResult.destSpace.row][validatorResult.destSpace.col].piece = validatorResult.rookSpace.piece;
+              state.board[validatorResult.destSpace.row][validatorResult.destSpace.col].piece.hasMoved = true;
+              state.board[validatorResult.rookSpace.row][validatorResult.rookSpace.col].piece = undefined;
+            }
           }
         }
       }

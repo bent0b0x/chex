@@ -478,6 +478,7 @@ describe('game', () => {
         });
         it('should not permit a horizontal move greater than length 1', () => {
           const piece = state.board[0][4].piece;
+          state.board[0][0].piece.hasMoved = true;
           attemptMove(state, 0, 4, 0, 2);
           expect(state.board[0][4].piece).to.equal(piece);
           expect(state.board[0][2].piece).to.be.undefined;
@@ -490,9 +491,9 @@ describe('game', () => {
         });
         it('should not permit a vertical move greater than length 1', () => {
           const piece = state.board[0][4].piece;
-          attemptMove(state, 0, 4, 0, 6);
+          attemptMove(state, 0, 4, 2, 4);
           expect(state.board[0][4].piece).to.equal(piece);
-          expect(state.board[0][6].piece).to.be.undefined;
+          expect(state.board[2][4].piece).to.be.undefined;
         });
         it('should permit a diagonal move of length 1', () => {
           const piece = state.board[0][4].piece;
@@ -508,9 +509,9 @@ describe('game', () => {
         });
         it('should not permit a diagonal move at the wrong angle', () => {
           const piece = state.board[0][4].piece;
-          attemptMove(state, 0, 4, 0, 6);
+          attemptMove(state, 0, 4, 2, 3);
           expect(state.board[0][4].piece).to.equal(piece);
-          expect(state.board[0][6].piece).to.be.undefined;
+          expect(state.board[2][3].piece).to.be.undefined;
         });
         it('should permit a move where an opposing piece is at the destination', () => {
           const piece = state.board[0][4].piece;
@@ -521,10 +522,30 @@ describe('game', () => {
         });
         it('should not permit a move where a teammate piece is at the destination', () => {
           const piece = state.board[0][4].piece;
-          const destSpace =state.board[0][5].piece = state.board[0][7].piece;
+          const destPiece =state.board[0][5].piece = state.board[0][7].piece;
           attemptMove(state, 0, 4, 0, 5);
           expect(state.board[0][4].piece).to.equal(piece);
-          expect(state.board[0][5].piece).to.equal(destSpace);
+          expect(state.board[0][5].piece).to.equal(destPiece);
+        });
+        describe('castling', () => {
+          it('should permit a short castle', () => {
+            const king = state.board[0][4].piece;
+            const rook = state.board[0][7].piece;
+            attemptMove(state, 0, 4, 0, 6);
+            expect(state.board[0][6].piece).to.deep.equal(king);
+            expect(state.board[0][5].piece).to.deep.equal(rook);
+            expect(state.board[0][4].piece).to.be.undefined;
+            expect(state.board[0][7].piece).to.be.undefined;
+          });
+          it('should permit a long castle', () => {
+            const king = state.board[0][4].piece;
+            const rook = state.board[0][0].piece;
+            attemptMove(state, 0, 4, 0, 2);
+            expect(state.board[0][2].piece).to.deep.equal(king);
+            expect(state.board[0][3].piece).to.deep.equal(rook);
+            expect(state.board[0][4].piece).to.be.undefined;
+            expect(state.board[0][0].piece).to.be.undefined;
+          }); 
         });
       });
     });

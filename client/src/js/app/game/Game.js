@@ -5,7 +5,7 @@ import Clock from './clock/Clock';
 export default ({ board, turn }) => {
   return <div className="game">
       <div className="turn">
-        { turn }
+        Turn: { turn }
       </div>
       <Board board={board} />
       <Clock />
