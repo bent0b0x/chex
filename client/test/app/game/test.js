@@ -522,7 +522,7 @@ describe('game', () => {
         });
         it('should not permit a move where a teammate piece is at the destination', () => {
           const piece = state.board[0][4].piece;
-          const destPiece =state.board[0][5].piece = state.board[0][7].piece;
+          const destPiece = state.board[0][5].piece = state.board[0][7].piece;
           attemptMove(state, 0, 4, 0, 5);
           expect(state.board[0][4].piece).to.equal(piece);
           expect(state.board[0][5].piece).to.equal(destPiece);
@@ -540,12 +540,52 @@ describe('game', () => {
           it('should permit a long castle', () => {
             const king = state.board[0][4].piece;
             const rook = state.board[0][0].piece;
+            state.board[6][3].piece = state.board[7][1].piece;
             attemptMove(state, 0, 4, 0, 2);
             expect(state.board[0][2].piece).to.deep.equal(king);
             expect(state.board[0][3].piece).to.deep.equal(rook);
             expect(state.board[0][4].piece).to.be.undefined;
             expect(state.board[0][0].piece).to.be.undefined;
-          }); 
+          });
+          it('should permit a castle when the rook or king has moved', () => {
+            const king = state.board[0][4].piece;
+            king.hasMoved = true;
+            const rook = state.board[0][0].piece;
+            attemptMove(state, 0, 4, 0, 2);
+            expect(state.board[0][4].piece).to.deep.equal(king);
+            expect(state.board[0][0].piece).to.deep.equal(rook);
+
+            king.hasMoved = false;
+            rook.hasMoved = true;
+            attemptMove(state, 0, 4, 0, 2);
+            expect(state.board[0][4].piece).to.deep.equal(king);
+            expect(state.board[0][0].piece).to.deep.equal(rook);
+          });
+          it('should not permit a castle when a piece is in the way', () => {
+            const king = state.board[0][4].piece;
+            const rook = state.board[0][0].piece;
+            state.board[0][1].piece = state.board[7][1].piece;
+            attemptMove(state, 0, 4, 0, 2);
+            expect(state.board[0][4].piece).to.equal(king);
+            expect(state.board[0][0].piece).to.equal(rook);
+          });
+          it('should not permit a castle when the king is in check', () => {
+            const king = state.board[0][4].piece;
+            const rook = state.board[0][0].piece;
+            state.board[1][4].piece = state.board[7][5].piece;
+            state.board.check = colors.WHITE;
+            attemptMove(state, 0, 4, 0, 2);
+            expect(state.board[0][4].piece).to.equal(king);
+            expect(state.board[0][0].piece).to.equal(rook);
+          });
+          it('should not permit a castle when the king would pass through a checked space', () => {
+            const king = state.board[0][4].piece;
+            const rook = state.board[0][7].piece;
+            state.board[1][5].piece = state.board[7][7].piece;
+            attemptMove(state, 0, 4, 0, 6);
+            expect(state.board[0][4].piece).to.equal(king);
+            expect(state.board[0][7].piece).to.equal(rook);
+          });
         });
       });
     });

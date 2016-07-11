@@ -1,4 +1,5 @@
 import * as Pieces from './Pieces';
+import * as checkValidator from './checkValidator';
 
 export default (origSpace, destSpace, game, checkCallback) => {
   let result = true;
@@ -128,6 +129,9 @@ export default (origSpace, destSpace, game, checkCallback) => {
             if (origSpace.piece.hasMoved) {
               return false;
             }
+            if (game.board.check === origSpace.piece.color) {
+              return false;
+            }
             let rookSpace;
             let destRookCol;
             if (destSpace.col > origSpace.col) {
@@ -139,6 +143,15 @@ export default (origSpace, destSpace, game, checkCallback) => {
             }
             if (!rookSpace.piece || rookSpace.piece.hasMoved) {
               return false;
+            }
+            let dir = destSpace.col > origSpace.col ? 1 : -1;
+            for (let i = origSpace.col + dir; i !== rookSpace.col; i += dir) {
+              if (game.board[origSpace.row][i].piece) {
+                return false;
+              }
+              if (checkValidator.preMove(game, origSpace, game.board[origSpace.row][i]).length) {
+                return false;
+              }
             }
             result = {
               rookSpace,
