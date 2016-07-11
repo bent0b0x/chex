@@ -586,6 +586,14 @@ describe('game', () => {
             expect(state.board[0][4].piece).to.equal(king);
             expect(state.board[0][7].piece).to.equal(rook);
           });
+          it('should not permit a castle when the king would end up in a checked space', () => {
+            const king = state.board[0][4].piece;
+            const rook = state.board[0][7].piece;
+            state.board[1][6].piece = state.board[7][7].piece;
+            attemptMove(state, 0, 4, 0, 6);
+            expect(state.board[0][4].piece).to.equal(king);
+            expect(state.board[0][7].piece).to.equal(rook);
+          });
         });
       });
     });
