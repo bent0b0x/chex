@@ -11,9 +11,12 @@ const validate = (game, callback) => {
         return;
       }
       Object.keys(game.board.kings).forEach((kingColor) => {
+        if (game.board[origRow][origCol].piece.color === kingColor) {
+          return;
+        }
         validator(board[origRow][origCol], board[game.board.kings[kingColor].row][game.board.kings[kingColor].col], game, callback);
       });
-    }); 
+    });
   });
   return game;
 };

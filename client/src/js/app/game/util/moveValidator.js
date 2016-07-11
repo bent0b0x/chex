@@ -9,13 +9,11 @@ export default (origSpace, destSpace, game, checkCallback) => {
         return false;
       }
       if (origSpace.col !== destSpace.col) {
-        if (!destSpace.piece ||  destSpace.piece.color === origSpace.piece.color) {
-          return false;       
+        if (Math.abs(destSpace.col - origSpace.col) !== 1 || !destSpace.piece || destSpace.piece.color === origSpace.piece.color) {
+          return false;      
         }
-      } else {
-        if (destSpace.piece) {
-          return false;
-        }
+      } else if (destSpace.piece) {
+        return false;
       }
       let diff = game.top === origSpace.piece.color ? 1 : -1;
       if (origSpace.row + diff > destSpace.row + 1) {

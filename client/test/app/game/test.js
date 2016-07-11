@@ -188,6 +188,14 @@ describe('game', () => {
           expect(state.board[2][1].piece).to.deep.equal(piece);
           expect(state.board[1][0].piece).to.be.undefined;
         });
+        it('should not permit a pawn to move diagonally if it is at the wrong angle', () => {
+          const piece = state.board[1][0].piece;
+          state.board[2][3].piece = Object.assign({}, state.board[7][7].piece);
+          const destPiece = state.board[2][3].piece;
+          attemptMove(state, 1, 0, 2, 3);
+          expect(state.board[1][0].piece).to.equal(piece);
+          expect(state.board[2][3].piece).to.equal(destPiece);
+        });
         it('should permit a pawn to move two vertical spaces if it has not moved before', () => {
           let piece = state.board[1][0].piece;
           attemptMove(state, 1, 0, 3, 0);
