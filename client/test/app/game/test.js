@@ -664,16 +664,22 @@ describe('game', () => {
           expect(state.check).to.equal(colors.WHITE);
         });
       });
-      xit('should set check when a king is in check', () => {
+      it('should set check when a king is in check', () => {
+        state.turn = colors.BLACK;
         state.board[2][3].piece = state.board[6][0].piece;
         attemptMove(state, 2, 3, 1, 3);
         expect(state.check).to.equal(colors.WHITE);
       });
-      xit('should unset check when a king is no longer in check', () => {
+      it('should unset check when a king is no longer in check', () => {
         state.check = colors.WHITE;
         state.board[2][3].piece = state.board[6][0].piece;
         attemptMove(state, 2, 3, 1, 3);
         attemptMove(state, 0, 2, 1, 3);
+        expect(state.check).to.be.false;
+      });
+      it('should not set check when a king is not put in check', () => {
+        state.turn = colors.WHITE;
+        attemptMove(state, 1, 1, 2, 1);
         expect(state.check).to.be.false;
       });
     });
@@ -695,10 +701,13 @@ describe('game', () => {
       expect(output.type).to.equal('div');
       expect(output.props.className).to.equal('game');
 
-      let [turn, board, clock] = output.props.children;
+      let [turn, check, board, clock] = output.props.children;
 
       expect(turn.type).to.equal('div');
       expect(turn.props.className).to.equal('turn');
+
+      expect(check.type).to.equal('div');
+      expect(check.props.className).to.equal('check');
 
       expect(board.type).to.equal(Board);
       expect(board.props.board).to.equal(props.board);

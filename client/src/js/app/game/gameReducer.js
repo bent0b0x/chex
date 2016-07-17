@@ -37,6 +37,7 @@ const handleSelect = (state, { row, col }) => {
               state.board[validatorResult.destSpace.row][validatorResult.destSpace.col].piece.hasMoved = true;
               state.board[validatorResult.rookSpace.row][validatorResult.rookSpace.col].piece = undefined;
             }
+            checkValidator.postMove(state);
           }
         }
       }
