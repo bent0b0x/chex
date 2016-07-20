@@ -12,6 +12,12 @@ export default {
     top: colors.WHITE,
     clock: genClock()
   },
+  menu: [
+    {
+      title: 'Play',
+      url: '/game'
+    }
+  ],
   config: {
     app_name: 'Chex'
   }
