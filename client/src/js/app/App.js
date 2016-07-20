@@ -1,7 +1,7 @@
 import React from 'react';
 import GameContainer from './game/GameContainer';
 
-export default ({ app_name }) => (
+export default ({ app_name, children }) => (
     <div className="app">
       <nav>
         <div className="nav-wrapper">
@@ -9,11 +9,6 @@ export default ({ app_name }) => (
         </div>
       </nav>
       App
-      <GameContainer />
+      {children}
     </div>
 );
-
-
-
-
-
