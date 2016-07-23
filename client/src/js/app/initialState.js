@@ -1,23 +1,19 @@
-import genBoard from '../util/generateBoard';
-import genClock from '../util/generateClock';
+import board from '../util/generateBoard';
+import clock from '../util/generateClock';
+import menu from '../util/generateMenu';
 import * as colors from './game/util/PieceColors';
 
 export default {
   game: {
     started: false,
     active_space: false,
-    board: genBoard(),
+    board: board(),
     turn: colors.WHITE,
     check: false,
     top: colors.WHITE,
-    clock: genClock()
+    clock: clock()
   },
-  menu: [
-    {
-      title: 'Play',
-      url: '/game'
-    }
-  ],
+  menu: menu(),
   config: {
     app_name: 'Chex'
   }
