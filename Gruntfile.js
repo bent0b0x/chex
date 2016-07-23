@@ -22,9 +22,13 @@ module.exports = function(grunt) {
     },
     browserify: {
       client: {
-        src: ['client/dist/**/*.js', '!client/dist/bundle.js'],
+        src: [
+          'client/dist/**/*.js',
+          '!client/dist/src.js',
+          '!client/dist/bundle.js'
+        ],
         ignore: ['client/test/**/*'],
-        dest: 'client/dist/bundle.js'
+        dest: 'client/dist/src.js'
       }
     },
     clean: {
@@ -41,6 +45,14 @@ module.exports = function(grunt) {
           '!client/src/styles/styles.scss'
         ],
         dest: 'client/src/styles/styles.scss'
+      },
+      js: {
+        src: [
+          'client/dist/src.js',
+          'client/lib/jquery/dist/jquery.min.js',
+          'client/lib/Materialize/dist/js/materialize.min.js'
+        ],
+        dest: 'client/dist/bundle.js'
       }
     },
     copy: {
@@ -88,9 +100,9 @@ module.exports = function(grunt) {
 
   grunt.registerTask('build-img', ['clean:img', 'copy:img']);
 
-  grunt.registerTask('build-styles', ['clean:styles', 'concat', 'sass']);
+  grunt.registerTask('build-styles', ['clean:styles', 'concat:sass', 'sass']);
 
-  grunt.registerTask('build-js', ['clean:js', 'babel', 'browserify:client']);
+  grunt.registerTask('build-js', ['clean:js', 'babel', 'browserify:client', 'concat:js']);
 
   grunt.registerTask('build-all', ['clean:dist', 'build-js', 'build-img', 'build-styles']);
 
