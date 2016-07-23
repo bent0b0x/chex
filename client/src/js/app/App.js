@@ -9,6 +9,8 @@ export default ({ app_name, children }) => (
         </div>
       </nav>
       App
-      {children}
+      <div className="container">
+        {children}
+      </div>
     </div>
 );
