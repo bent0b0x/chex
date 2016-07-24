@@ -16,5 +16,10 @@ export default {
   menu: menu(),
   config: {
     app_name: 'Chex'
+  },
+  signup: {
+    submitting: false,
+    fail: false,
+    success: false
   }
 }

@@ -1,4 +1,5 @@
 import { combineReducers } from 'redux';
+import signup from './signup/signupReducer';
 import game from './game/gameReducer';
 import initialState from './initialState';
 
@@ -14,6 +15,7 @@ export default combineReducers(
   {
     game,
     menu,
-    config
+    config,
+    signup
   }
 );

@@ -4,6 +4,7 @@ import React from 'react';
 import AppContainer from './app/AppContainer';
 import GameContainer from './app/game/GameContainer';
 import MenuContainer from './app/menu/MenuContainer';
+import SignupContainer from './app/signup/SignupContainer';
 import { render } from 'react-dom';
 import { Router, Route, Link, browserHistory, IndexRoute } from 'react-router';
 import appReducer from './app/appReducer';
@@ -16,6 +17,7 @@ render(
         <Route path="/" component={AppContainer}>
           <IndexRoute component={MenuContainer}/>
           <Route path="game" component={GameContainer}/>
+          <Route path="signup" component={SignupContainer}/>
         </Route>
     </Router>
   </Provider>,
