@@ -19,7 +19,7 @@ export default (state = initialState.signup, action) => {
       return Object.assign({}, state, {
         submitting: false,
         success: false,
-        fail: false
+        fail: true
       });
     default:
       return state;

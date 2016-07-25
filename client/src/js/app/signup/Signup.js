@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router';
 
-export default ({ onSubmit, submitting }) => (
+export default ({ onSubmit, submitting, success, fail }) => (
   <div className="row">
     <form
       className="col s12"
@@ -30,6 +30,33 @@ export default ({ onSubmit, submitting }) => (
         name="action">
           Submit
       </button>
+        <div className="row">
+        {
+          submitting ?
+            <div className="preloader-wrapper big active">
+              <div className="spinner-layer spinner-blue-only">
+                <div className="circle-clipper left">
+                  <div className="circle"></div>
+                </div><div className="gap-patch">
+                  <div className="circle"></div>
+                </div><div className="circle-clipper right">
+                  <div className="circle"></div>
+                </div>
+              </div>
+            </div>
+          : null
+        }
+        {
+          success ?
+          <i className="material-icons">done</i>
+          : null
+        }
+        {
+          fail ?
+          <i className="material-icons">error_outline</i>
+          : null
+        }
+      </div>
     </form>
   </div>
 );
