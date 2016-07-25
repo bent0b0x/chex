@@ -1,3 +1,4 @@
+var envify = require('envify/custom');
 module.exports = function(grunt) {
 
   require('load-grunt-tasks')(grunt);
@@ -21,14 +22,20 @@ module.exports = function(grunt) {
       }
     },
     browserify: {
-      client: {
+      dev: {
         src: [
           'client/dist/**/*.js',
           '!client/dist/src.js',
           '!client/dist/bundle.js'
         ],
         ignore: ['client/test/**/*'],
-        dest: 'client/dist/src.js'
+        dest: 'client/dist/src.js',
+        options: {
+          transform: [envify({
+            NODE_ENV: 'development',
+            API_URL: 'http://localhost:8080'
+          })]
+        }
       }
     },
     clean: {
@@ -102,7 +109,7 @@ module.exports = function(grunt) {
 
   grunt.registerTask('build-styles', ['clean:styles', 'concat:sass', 'sass']);
 
-  grunt.registerTask('build-js', ['clean:js', 'babel', 'browserify:client', 'concat:js']);
+  grunt.registerTask('build-js', ['clean:js', 'babel', 'browserify:dev', 'concat:js']);
 
   grunt.registerTask('build-all', ['clean:dist', 'build-js', 'build-img', 'build-styles']);
 
