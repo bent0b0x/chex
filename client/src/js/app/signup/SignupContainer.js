@@ -1,6 +1,7 @@
 import { connect } from 'react-redux';
 import Signup from './Signup';
 import * as ActionCreators from './SignupActionCreators';
+import config from '../../util/config';
 
 const mapStateToProps = (state) => {
     return {
