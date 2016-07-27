@@ -1,6 +1,7 @@
 import { connect } from 'react-redux';
 import Signup from './Signup';
 import * as ActionCreators from './SignupActionCreators';
+import * as UserActionCreators from '../user/UserActionCreators';
 import config from '../../util/config';
 import { browserHistory } from 'react-router';
 import request from 'superagent';
@@ -41,7 +42,13 @@ const mapDispatchToProps = (dispatch) => {
           if (err) {
             return dispatch(ActionCreators.fail());
           }
+          localStorage.setItem('auth_token', res.body.token);
           dispatch(ActionCreators.success());
+          dispatch(UserActionCreators.login({
+            gamertag,
+            email,
+            token: localStorage('auth_token')
+          }));
           browserHistory.push('/game');
         });
     }

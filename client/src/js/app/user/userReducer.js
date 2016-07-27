@@ -1,5 +1,15 @@
 import initialState from '../initialState';
+import * as Actions from './UserActions';
 
 export default (state = initialState.user, action) => {
-    return state;
+    switch (action.type) {
+        case Actions.LOGIN:
+            return Object.assign({}, state, {
+                gamertag: action.gamertag,
+                email: action.email,
+                token: action.token
+            });
+        default:
+            return state;
+    }
 };

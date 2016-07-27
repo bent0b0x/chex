@@ -3,7 +3,8 @@ import App from './App';
 
 const mapStateToProps = (state) => {
   return {
-    app_name: state.config.app_name
+    app_name: state.config.app_name,
+    gamertag: state.user.gamertag
   };
 };
 

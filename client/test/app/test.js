@@ -39,7 +39,7 @@ describe('app', () => {
 
       expect(navWrapper.props.className).to.equal('nav-wrapper');
 
-      let logo = navWrapper.props.children;
+      let [logo] = navWrapper.props.children;
 
       expect(logo.props.className).to.equal('brand-logo');
       expect(logo.props.children).to.equal(props.app_name);
