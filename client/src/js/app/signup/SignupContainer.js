@@ -2,6 +2,7 @@ import { connect } from 'react-redux';
 import Signup from './Signup';
 import * as ActionCreators from './SignupActionCreators';
 import config from '../../util/config';
+import { browserHistory } from 'react-router';
 import request from 'superagent';
 
 const mapStateToProps = (state) => {
@@ -41,6 +42,7 @@ const mapDispatchToProps = (dispatch) => {
             return dispatch(ActionCreators.fail());
           }
           dispatch(ActionCreators.success());
+          browserHistory.push('/game');
         });
     }
   };
