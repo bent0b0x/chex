@@ -25,6 +25,13 @@ export default {
     email: undefined,
     password: undefined
   },
+  login: {
+    submitting: false,
+    fail: false,
+    success: false,
+    email: undefined,
+    password: undefined
+  },
   user: {
     gamertag: localStorage.getItem('gamertag'),
     email: undefined,

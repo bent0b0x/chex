@@ -1,12 +1,12 @@
-export const SUBMIT = 'SUBMIT';
+export const SUBMIT = 'SIGNUP_SUBMIT';
 
-export const SUCCESS = 'SUCCESS';
+export const SUCCESS = 'SIGNUP_SUCCESS';
 
-export const FAIL = 'FAIL';
+export const FAIL = 'SIGNUP_FAIL';
 
-export const GAMERTAG = 'GAMERTAG';
+export const GAMERTAG = 'SIGNUP_GAMERTAG';
 
-export const EMAIL = 'EMAIL';
+export const EMAIL = 'SIGNUP_EMAIL';
 
-export const PASSWORD = 'PASSWORD';
+export const PASSWORD = 'SIGNUP_PASSWORD';
 
