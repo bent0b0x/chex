@@ -42,12 +42,13 @@ const mapDispatchToProps = (dispatch) => {
           if (err) {
             return dispatch(ActionCreators.fail());
           }
-          localStorage.setItem('auth_token', res.body.token);
+          localStorage.setItem('token', res.body.token);
+          localStorage.setItem('gamertag', gamertag);
           dispatch(ActionCreators.success());
           dispatch(UserActionCreators.login({
             gamertag,
             email,
-            token: localStorage('auth_token')
+            token: res.body.token
           }));
           browserHistory.push('/game');
         });

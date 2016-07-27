@@ -78,7 +78,7 @@ module.exports = function(grunt) {
       }
     },
     shell: {
-      'test-client': 'mocha --compilers js:babel-register --recursive client/test',
+      'test-client': 'mocha -r mock-local-storage --compilers js:babel-register --recursive client/test',
       'bower-install': 'bower install'
     },
     watch: {

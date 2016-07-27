@@ -26,8 +26,8 @@ export default {
     password: undefined
   },
   user: {
-    gamertag: undefined,
+    gamertag: localStorage.getItem('gamertag'),
     email: undefined,
-    token: undefined
+    token: localStorage.getItem('token')
   }
 };
