@@ -1,7 +1,15 @@
 import React from 'react';
 import { Link } from 'react-router';
 
-export default ({ onSubmit, submitting, success, fail }) => (
+export default ({
+  onSubmit,
+  submitting,
+  success,
+  fail,
+  onEmailChange,
+  onGamertagChange,
+  onPasswordChange
+}) => (
   <div className="signup">
     <div className="row">
       <form
@@ -9,19 +17,34 @@ export default ({ onSubmit, submitting, success, fail }) => (
         onSubmit={onSubmit}>
         <div className="row">
           <div className="input-field col s12">
-            <input id="gamertag" type="text" className="validate"></input>
+            <input
+              id="gamertag"
+              type="text"
+              className="validate"
+              onChange={onGamertagChange}>
+            </input>
             <label htmlFor="gamertag">Gamertag</label>
           </div>
         </div>
         <div className="row">
           <div className="input-field col s12">
-            <input id="email" type="email" className="validate"></input>
+            <input
+              id="email"
+              type="email"
+              className="validate"
+              onChange={onEmailChange}>
+            </input>
             <label htmlFor="email">Email</label>
           </div>
         </div>
         <div className="row">
           <div className="input-field col s12">
-            <input id="password" type="password" className="validate"></input>
+            <input
+              id="password"
+              type="password"
+              className="validate"
+              onChange={onPasswordChange}>
+            </input>
             <label htmlFor="password">Password</label>
           </div>
         </div>

@@ -21,7 +21,19 @@ export default (state = initialState.signup, action) => {
         success: false,
         fail: true
       });
+    case Actions.EMAIL:
+      return Object.assign({}, state, {
+        email: action.email
+      });
+    case Actions.GAMERTAG:
+      return Object.assign({}, state, {
+        gamertag: action.gamertag
+      });
+    case Actions.PASSWORD:
+      return Object.assign({}, state, {
+        password: action.password
+      });
     default:
       return state;
   }
-}
+};

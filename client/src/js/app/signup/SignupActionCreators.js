@@ -17,3 +17,24 @@ export const fail = () => (
     type: Actions.FAIL
   }
 );
+
+export const updateGamertag = gamertag => (
+  {
+    type: Actions.GAMERTAG,
+    gamertag
+  }
+);
+
+export const updateEmail = email => (
+  {
+    type: Actions.EMAIL,
+    email
+  }
+);
+
+export const updatePassword = password => (
+  {
+    type: Actions.PASSWORD,
+    password
+  }
+);

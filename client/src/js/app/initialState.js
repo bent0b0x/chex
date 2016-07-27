@@ -20,6 +20,14 @@ export default {
   signup: {
     submitting: false,
     fail: false,
-    success: false
+    success: false,
+    gamertag: undefined,
+    email: undefined,
+    password: undefined
+  },
+  user: {
+    gamertag: undefined,
+    email: undefined,
+    token: undefined
   }
-}
+};
