@@ -78,9 +78,9 @@ describe('signup', () => {
       expect(output.type).to.equal('div');
       expect(output.props.className).to.equal('signup');
 
-      expect(SearchDOM.forClass(output, 'submitting')).to.not.be.ok;
-      expect(SearchDOM.forClass(output, 'success')).to.not.be.ok;
-      expect(SearchDOM.forClass(output, 'fail')).to.not.be.ok;
+      expect(SearchDOM.forClass(output, 'signup-submitting')).to.not.be.ok;
+      expect(SearchDOM.forClass(output, 'signup-success')).to.not.be.ok;
+      expect(SearchDOM.forClass(output, 'signup-fail')).to.not.be.ok;
 
     });
 
@@ -94,9 +94,9 @@ describe('signup', () => {
       renderer.render(<Signup {...props} />);
       output = renderer.getRenderOutput();
 
-      expect(SearchDOM.forClass(output, 'submitting')).to.be.ok;
-      expect(SearchDOM.forClass(output, 'success')).to.not.be.ok;
-      expect(SearchDOM.forClass(output, 'fail')).to.not.be.ok;
+      expect(SearchDOM.forClass(output, 'signup-submitting')).to.be.ok;
+      expect(SearchDOM.forClass(output, 'signup-success')).to.not.be.ok;
+      expect(SearchDOM.forClass(output, 'signup-fail')).to.not.be.ok;
 
     });
 
@@ -110,9 +110,9 @@ describe('signup', () => {
       renderer.render(<Signup {...props} />);
       output = renderer.getRenderOutput();
 
-      expect(SearchDOM.forClass(output, 'submitting')).to.not.be.ok;
-      expect(SearchDOM.forClass(output, 'success')).to.be.ok;
-      expect(SearchDOM.forClass(output, 'fail')).to.not.be.ok;
+      expect(SearchDOM.forClass(output, 'signup-submitting')).to.not.be.ok;
+      expect(SearchDOM.forClass(output, 'signup-success')).to.be.ok;
+      expect(SearchDOM.forClass(output, 'signup-fail')).to.not.be.ok;
 
     });
 
@@ -126,9 +126,9 @@ describe('signup', () => {
       renderer.render(<Signup {...props} />);
       output = renderer.getRenderOutput();
 
-      expect(SearchDOM.forClass(output, 'submitting')).to.not.be.ok;
-      expect(SearchDOM.forClass(output, 'success')).to.not.be.ok;
-      expect(SearchDOM.forClass(output, 'fail')).to.be.ok;
+      expect(SearchDOM.forClass(output, 'signup-submitting')).to.not.be.ok;
+      expect(SearchDOM.forClass(output, 'signup-success')).to.not.be.ok;
+      expect(SearchDOM.forClass(output, 'signup-fail')).to.be.ok;
 
     });
   });

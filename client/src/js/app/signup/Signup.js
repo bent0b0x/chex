@@ -57,7 +57,7 @@ export default ({
         <div className="row ">
           {
             submitting ?
-              <div className="submitting">
+              <div className="signup-submitting">
                 <div className="preloader-wrapper big active">
                   <div className="spinner-layer spinner-blue-only">
                     <div className="circle-clipper left">
@@ -74,14 +74,14 @@ export default ({
           }
           {
             success ?
-            <div className="success">
+            <div className="signup-success">
               <i className="material-icons">done</i>
             </div>
             : null
           }
           {
             fail ?
-            <div className="fail">
+            <div className="signup-fail">
               <i className="material-icons">error_outline</i>
             </div>
             : null
