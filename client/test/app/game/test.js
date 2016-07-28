@@ -1,9 +1,9 @@
 import initialState from '../../../src/js/app/initialState';
 import gameReducer from '../../../src/js/app/game/gameReducer';
 import * as SpaceActionCreators from '../../../src/js/app/game/board/space/SpaceActionCreators';
-import generateBoard from '../../../src/js/util/generateBoard';
-import * as colors from '../../../src/js/app/game/util/PieceColors';
-import * as checkValidator from '../../../src/js/app/game/util/checkValidator';
+import { generateBoard } from 'chex-util';
+import { pieceColors as colors } from 'chex-util';
+import { checkValidator } from 'chex-util';
 import Game from '../../../src/js/app/game/Game';
 import Board from '../../../src/js/app/game/board/Board';
 import Clock from '../../../src/js/app/game/clock/Clock';

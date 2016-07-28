@@ -11,6 +11,7 @@
   "author": "bent0b0x",
   "license": "MIT",
   "dependencies": {
+    "chex-util": "git+ssh://git@bitbucket.org/wmainstreet/chex-util.git",
     "express": "^4.14.0",
     "react": "^15.2.0",
     "react-dom": "^15.1.0",

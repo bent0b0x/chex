@@ -1,4 +1,4 @@
-import * as colors from '../app/game/util/PieceColors';
+import { pieceColors as colors } from 'chex-util';
 
 export default () => {
   let clock = {};

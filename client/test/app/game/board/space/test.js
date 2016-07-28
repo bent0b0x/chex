@@ -3,7 +3,7 @@ import * as creators from '../../../../../src/js/app/game/board/space/SpaceActio
 import * as actions from '../../../../../src/js/app/game/board/space/SpaceActions';
 import reducer from '../../../../../src/js/app/game/board/space/spaceReducer';
 import Space from '../../../../../src/js/app/game/board/space/Space';
-import * as colors from '../../../../../src/js/app/game/util/PieceColors';
+import { pieceColors as colors } from 'chex-util';
 import React from 'react';
 import TestUtils from 'react-addons-test-utils';
 

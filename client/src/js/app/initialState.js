@@ -1,7 +1,7 @@
-import board from '../util/generateBoard';
+import { generateBoard as board } from 'chex-util';
 import clock from '../util/generateClock';
 import menu from '../util/generateMenu';
-import * as colors from './game/util/PieceColors';
+import { pieceColors as colors } from 'chex-util';
 
 export default {
   game: {

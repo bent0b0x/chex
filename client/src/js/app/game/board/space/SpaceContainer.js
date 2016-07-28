@@ -2,7 +2,6 @@ import { connect } from 'react-redux';
 import { select } from './SpaceActionCreators';
 import Space from './Space';
 
-
 const mapStateToProps = (state, ownProps) => {
   return {
     content: state.game.board[ownProps.row][ownProps.col].piece,
@@ -18,13 +17,12 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     onClick: () => {
       dispatch(select(ownProps.row, ownProps.col));
     }
-  }
-}
-
+  };
+};
 
 const SpaceContainer = connect(
   mapStateToProps,
   mapDispatchToProps
 )(Space);
 
-export default SpaceContainer
+export default SpaceContainer;

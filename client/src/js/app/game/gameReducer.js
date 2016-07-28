@@ -1,11 +1,10 @@
 import initialState from '../../app/initialState';
 import { combineReducers } from 'redux';
 import clock from './clock/clockReducer';
-import * as Pieces from './util/Pieces';
-import validator from './util/moveValidator';
-import * as checkValidator from './util/checkValidator';
+import { pieces as Pieces } from 'chex-util';
+import { checkValidator, moveValidator } from 'chex-util';
 import * as SpaceActions from './board/space/SpaceActions';
-import * as colors from './util/PieceColors';
+import { pieceColors as colors } from 'chex-util';
 
 const handleSelect = (state, { row, col }) => {
   if (!state.active_space) {
@@ -19,7 +18,7 @@ const handleSelect = (state, { row, col }) => {
       state.active_space = false;
     } else {
       if ((!state.board[row][col].piece || state.board[row][col].piece.color !== state.active_space.piece.color) && state.turn === state.active_space.piece.color) {
-        const validatorResult = validator(state.active_space, state.board[row][col], state);
+        const validatorResult = moveValidator(state.active_space, state.board[row][col], state);
         if (validatorResult) {
           const checks = checkValidator.preMove(state, state.active_space, state.board[row][col]);
           if (!checks.find((check) => check.color === state.active_space.piece.color)) {

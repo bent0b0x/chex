@@ -1,6 +1,6 @@
 import React from 'react';
 import SpaceContainer from './space/SpaceContainer';
-import * as colors from '../util/PieceColors';
+import { pieceColors as colors } from 'chex-util';
 
 export default ({ board }) => (
     <div className="board">
