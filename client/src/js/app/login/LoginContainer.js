@@ -42,7 +42,7 @@ const mapDispatchToProps = (dispatch) => {
           localStorage.setItem('gamertag', res.body.gamertag);
           dispatch(ActionCreators.success());
           dispatch(UserActionCreators.login({
-            gamertag: res.body.token,
+            gamertag: res.body.gamertag,
             email,
             token: res.body.token
           }));
